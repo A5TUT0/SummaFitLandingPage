@@ -1,0 +1,227 @@
+export const languages = {
+  en: 'English',
+  es: 'Español',
+  de: 'Deutsch',
+} as const;
+
+export type Locale = keyof typeof languages;
+
+export const defaultLocale: Locale = 'en';
+
+export function isLocale(locale: string | undefined): locale is Locale {
+  return locale === 'en' || locale === 'es' || locale === 'de';
+}
+
+export function localePath(locale: Locale) {
+  return locale === defaultLocale ? '/' : `/${locale}/`;
+}
+
+export const copy = {
+  en: {
+    htmlLang: 'en',
+    metaDescription: 'SummaFit is a modern nutrition, hydration, and daily habits tracker with a smooth iOS-style experience.',
+    title: 'SummaFit | Nutrition and daily habits',
+    aria: {
+      nav: 'Main',
+      home: 'SummaFit home',
+      notifications: 'Notifications',
+      addMeal: 'Add meal',
+      homeTab: 'Home',
+      activityTab: 'Activity',
+      scanMeal: 'Scan meal',
+      goalsTab: 'Goals',
+    },
+    nav: { features: 'Features', daily: 'Routine', results: 'Progress', cta: 'Try app' },
+    hero: {
+      eyebrow: 'Nutrition, water, and habits in one view',
+      body: 'A premium experience for tracking calories, macros, hydration, and daily meals without visual noise. Clean, smooth, and made to come back to every day.',
+      primaryCta: 'Start tracking',
+      secondaryCta: 'View features',
+      stats: ['days completed', 'water goal', 'active steps'],
+    },
+    phone: {
+      hydration: 'Hydration',
+      caloriesBurned: 'Calories burned',
+      today: 'Today',
+      dailySummary: 'Daily summary',
+      calories: 'Calories',
+      caloriesGoal: 'of 2,180 kcal',
+      water: 'Water',
+      waterProgress: '6 of 8 glasses',
+      meals: 'Meals',
+    },
+    macros: ['Protein', 'Carbs', 'Fat'],
+    meals: ['Mediterranean bowl', 'Yogurt + berries', 'Protein coffee'],
+    features: {
+      eyebrow: 'Key features',
+      title: 'Everything important stays visible without feeling heavy.',
+      items: [
+        ['Frictionless logging', 'Scan, dictate, or tap a frequent meal. SummaFit fills in calories and macros with a clear view of the day.'],
+        ['Visible hydration', 'Quick buttons for glasses and bottles, goal progress, and gentle reminders when your rhythm drops.'],
+        ['Daily habits', 'Connect nutrition, water, movement, and consistency in a simple routine that feels premium and light.'],
+      ],
+    },
+    daily: {
+      eyebrow: 'Daily routine',
+      title: 'Fast actions to keep the day under control.',
+      body: 'The landing mirrors the app: clear buttons, soft cards, recognizable states, and strong accents only where they matter.',
+      hydration: 'Hydration',
+      caloriesFree: '500 kcal left',
+      energy: 'Energy',
+      energyBody: 'A simple ring summarizes what you have consumed and what remains for the goal.',
+      habits: 'Completed habits',
+      habitsBody: 'Breakfast, water, walk, and light dinner.',
+    },
+    results: {
+      eyebrow: 'Progress',
+      title: 'Weekly clarity without cold dashboards.',
+      body: 'SummaFit turns calories, macros, and habits into a friendly read: enough detail to decide, zero overload.',
+      cards: ['Calories', 'Protein', 'Water'],
+    },
+    download: {
+      eyebrow: 'Launch',
+      title: 'Nutrition tracking you actually enjoy opening.',
+      body: 'A landing page ready to present SummaFit with a premium health aesthetic, plenty of space, and smooth animations.',
+      cta: 'Request access',
+      badge: 'Private beta app',
+    },
+  },
+  es: {
+    htmlLang: 'es',
+    metaDescription: 'SummaFit es una app moderna de seguimiento nutricional, hidratacion y habitos diarios con una experiencia suave tipo iOS.',
+    title: 'SummaFit | Nutricion y habitos diarios',
+    aria: {
+      nav: 'Principal',
+      home: 'Inicio de SummaFit',
+      notifications: 'Notificaciones',
+      addMeal: 'Anadir comida',
+      homeTab: 'Inicio',
+      activityTab: 'Actividad',
+      scanMeal: 'Escanear comida',
+      goalsTab: 'Objetivos',
+    },
+    nav: { features: 'Funciones', daily: 'Rutina', results: 'Progreso', cta: 'Probar app' },
+    hero: {
+      eyebrow: 'Nutricion, agua y habitos en una sola vista',
+      body: 'Una experiencia premium para seguir calorias, macros, hidratacion y comidas del dia sin ruido visual. Limpia, suave y hecha para volver a ella todos los dias.',
+      primaryCta: 'Empezar seguimiento',
+      secondaryCta: 'Ver funciones',
+      stats: ['dias completos', 'agua objetivo', 'pasos activos'],
+    },
+    phone: {
+      hydration: 'Hidratacion',
+      caloriesBurned: 'Calorias quemadas',
+      today: 'Hoy',
+      dailySummary: 'Resumen diario',
+      calories: 'Calorias',
+      caloriesGoal: 'de 2,180 kcal',
+      water: 'Agua',
+      waterProgress: '6 de 8 vasos',
+      meals: 'Comidas',
+    },
+    macros: ['Proteina', 'Carbs', 'Grasas'],
+    meals: ['Bowl mediterraneo', 'Yogur + frutos rojos', 'Cafe proteico'],
+    features: {
+      eyebrow: 'Funciones clave',
+      title: 'Todo lo importante queda visible sin sentirse pesado.',
+      items: [
+        ['Registro sin friccion', 'Escanea, dicta o toca una comida frecuente. SummaFit completa calorias y macros con una vista clara del dia.'],
+        ['Hidratacion visible', 'Botones rapidos para vasos y botellas, progreso por meta y recordatorios suaves cuando tu ritmo baja.'],
+        ['Habitos diarios', 'Une nutricion, agua, movimiento y constancia en una rutina simple que se siente premium y ligera.'],
+      ],
+    },
+    daily: {
+      eyebrow: 'Rutina diaria',
+      title: 'Acciones rapidas para mantener el dia bajo control.',
+      body: 'La landing refleja la app: botones claros, tarjetas suaves, estados reconocibles y acentos fuertes solo donde importan.',
+      hydration: 'Hidratacion',
+      caloriesFree: '500 kcal libres',
+      energy: 'Energia',
+      energyBody: 'Un anillo simple resume lo que llevas consumido y lo que queda para la meta.',
+      habits: 'Habitos completados',
+      habitsBody: 'Desayuno, agua, caminata y cena ligera.',
+    },
+    results: {
+      eyebrow: 'Progreso',
+      title: 'Claridad semanal sin dashboards frios.',
+      body: 'SummaFit convierte calorias, macros y habitos en una lectura amable: suficiente detalle para decidir, cero saturacion.',
+      cards: ['Calorias', 'Proteina', 'Agua'],
+    },
+    download: {
+      eyebrow: 'Lanzamiento',
+      title: 'Seguimiento nutricional que da gusto abrir.',
+      body: 'Una landing lista para presentar SummaFit con una estetica health premium, mucho aire y animaciones suaves.',
+      cta: 'Solicitar acceso',
+      badge: 'App privada beta',
+    },
+  },
+  de: {
+    htmlLang: 'de',
+    metaDescription: 'SummaFit ist eine moderne App zum Tracking von Ernährung, Hydration und täglichen Gewohnheiten mit einer ruhigen iOS-artigen Erfahrung.',
+    title: 'SummaFit | Ernährung und tägliche Gewohnheiten',
+    aria: {
+      nav: 'Hauptnavigation',
+      home: 'SummaFit Startseite',
+      notifications: 'Benachrichtigungen',
+      addMeal: 'Mahlzeit hinzufügen',
+      homeTab: 'Start',
+      activityTab: 'Aktivität',
+      scanMeal: 'Mahlzeit scannen',
+      goalsTab: 'Ziele',
+    },
+    nav: { features: 'Funktionen', daily: 'Routine', results: 'Fortschritt', cta: 'App testen' },
+    hero: {
+      eyebrow: 'Ernährung, Wasser und Gewohnheiten in einer Ansicht',
+      body: 'Eine hochwertige Erfahrung zum Tracken von Kalorien, Makros, Hydration und täglichen Mahlzeiten ohne visuelles Rauschen. Klar, ruhig und gemacht für jeden Tag.',
+      primaryCta: 'Tracking starten',
+      secondaryCta: 'Funktionen ansehen',
+      stats: ['Tage vollständig', 'Wasserziel', 'aktive Schritte'],
+    },
+    phone: {
+      hydration: 'Hydration',
+      caloriesBurned: 'Verbrannte Kalorien',
+      today: 'Heute',
+      dailySummary: 'Tagesübersicht',
+      calories: 'Kalorien',
+      caloriesGoal: 'von 2.180 kcal',
+      water: 'Wasser',
+      waterProgress: '6 von 8 Gläsern',
+      meals: 'Mahlzeiten',
+    },
+    macros: ['Protein', 'Kohlenhydrate', 'Fett'],
+    meals: ['Mediterrane Bowl', 'Joghurt + Beeren', 'Protein-Kaffee'],
+    features: {
+      eyebrow: 'Kernfunktionen',
+      title: 'Alles Wichtige bleibt sichtbar, ohne schwer zu wirken.',
+      items: [
+        ['Tracking ohne Reibung', 'Scanne, diktiere oder tippe eine häufige Mahlzeit an. SummaFit ergänzt Kalorien und Makros mit einer klaren Tagesansicht.'],
+        ['Sichtbare Hydration', 'Schnelle Buttons für Gläser und Flaschen, Zielfortschritt und sanfte Erinnerungen, wenn dein Rhythmus nachlässt.'],
+        ['Tägliche Gewohnheiten', 'Verbinde Ernährung, Wasser, Bewegung und Beständigkeit in einer einfachen Routine, die hochwertig und leicht wirkt.'],
+      ],
+    },
+    daily: {
+      eyebrow: 'Tägliche Routine',
+      title: 'Schnelle Aktionen, damit der Tag unter Kontrolle bleibt.',
+      body: 'Die Landingpage spiegelt die App wider: klare Buttons, weiche Karten, erkennbare Zustände und starke Akzente nur dort, wo sie wichtig sind.',
+      hydration: 'Hydration',
+      caloriesFree: '500 kcal übrig',
+      energy: 'Energie',
+      energyBody: 'Ein einfacher Ring fasst zusammen, was du aufgenommen hast und was bis zum Ziel bleibt.',
+      habits: 'Abgeschlossene Gewohnheiten',
+      habitsBody: 'Frühstück, Wasser, Spaziergang und leichtes Abendessen.',
+    },
+    results: {
+      eyebrow: 'Fortschritt',
+      title: 'Wöchentliche Klarheit ohne kühle Dashboards.',
+      body: 'SummaFit macht aus Kalorien, Makros und Gewohnheiten eine freundliche Auswertung: genug Details zum Entscheiden, keine Überladung.',
+      cards: ['Kalorien', 'Protein', 'Wasser'],
+    },
+    download: {
+      eyebrow: 'Launch',
+      title: 'Ernährungs-Tracking, das man gern öffnet.',
+      body: 'Eine Landingpage, bereit um SummaFit mit hochwertiger Health-Ästhetik, viel Raum und sanften Animationen zu präsentieren.',
+      cta: 'Zugang anfragen',
+      badge: 'Private Beta-App',
+    },
+  },
+} as const;
