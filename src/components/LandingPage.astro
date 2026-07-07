@@ -60,6 +60,21 @@ const progressCards = t.results.cards.map((label, index) => ({
   value: progressValues[index],
   color: progressColors[index],
 }));
+
+const footerCopy = {
+  en: {
+    tagline: 'Daily nutrition, hydration, and habits in one calm view.',
+    links: ['Privacy', 'Contact', 'Beta'],
+  },
+  es: {
+    tagline: 'Nutricion, hidratacion y habitos diarios en una vista tranquila.',
+    links: ['Privacidad', 'Contacto', 'Beta'],
+  },
+  de: {
+    tagline: 'Ernaehrung, Hydration und taegliche Gewohnheiten in einer ruhigen Ansicht.',
+    links: ['Datenschutz', 'Kontakt', 'Beta'],
+  },
+}[locale];
 ---
 
 <!doctype html>
@@ -386,6 +401,25 @@ const progressCards = t.results.cards.map((label, index) => ({
         </div>
       </section>
     </main>
+
+    <footer class="relative z-10 px-4 pb-10 sm:px-6 lg:px-8">
+      <div class="mx-auto flex max-w-6xl flex-col gap-5 border-t border-white/70 pt-8 text-sm text-[var(--text-secondary)] sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-3">
+          <span class="grid size-9 place-items-center rounded-full bg-[var(--orange-main)] text-white shadow-[0_10px_22px_var(--orange-glow)]">
+            <Flame size={18} strokeWidth={2.5} />
+          </span>
+          <div>
+            <p class="font-semibold text-[var(--text-main)]">SummaFit</p>
+            <p>{footerCopy.tagline}</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-4 font-semibold">
+          {footerCopy.links.map((link) => (
+            <a class="transition hover:text-[var(--orange-main)]" href="#download">{link}</a>
+          ))}
+        </div>
+      </div>
+    </footer>
 
     <script>
       import { gsap } from 'gsap';
