@@ -1,0 +1,253 @@
+---
+import '../styles/global.css';
+import { type Locale, type LandingCopy, SUPPORTED_LOCALES, OG_LOCALES } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  copy: LandingCopy;
+}
+
+const { locale, copy } = Astro.props;
+
+const INSTALL_URL = 'https://apps.apple.com/app/id6787150982';
+const APP_STORE_ID = '6787150982';
+const SITE_URL = 'https://summa.fit';
+const OG_IMAGE = `${SITE_URL}/newog-image.png`;
+const HERO_IMAGE = '/images/heroImage.png';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'SummaFit',
+  applicationCategory: 'HealthApplication',
+  operatingSystem: 'iOS',
+  url: SITE_URL,
+  downloadUrl: INSTALL_URL,
+  image: OG_IMAGE,
+  description: copy.seoDescription,
+  inLanguage: ['en', 'es', 'de', 'fr', 'it'],
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  featureList: [
+    'Barcode food scanning',
+    'Calorie and macro tracking',
+    'Hydration logging',
+    'Progress trends',
+    'Apple Health context',
+  ],
+};
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={copy.seoDescription} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large" />
+    <meta name="application-name" content="SummaFit" />
+    <meta name="apple-mobile-web-app-title" content="SummaFit" />
+    <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
+    <meta name="theme-color" content="#F5F7FA" />
+    <meta name="author" content="SummaFit" />
+    
+    <link rel="canonical" href={locale === 'en' ? SITE_URL : `${SITE_URL}/${locale}`} />
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    
+    <link rel="alternate" hreflang="x-default" href={SITE_URL} />
+    {SUPPORTED_LOCALES.map((l) => (
+      <link rel="alternate" hreflang={l} href={l === 'en' ? SITE_URL : `${SITE_URL}/${l}`} />
+    ))}
+
+    <link rel="preload" as="image" href={HERO_IMAGE} fetchpriority="high" />
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SummaFit" />
+    <meta property="og:url" content={locale === 'en' ? SITE_URL : `${SITE_URL}/${locale}`} />
+    <meta property="og:locale" content={OG_LOCALES[locale]} />
+    {SUPPORTED_LOCALES.filter(l => l !== locale).map(l => (
+      <meta property="og:locale:alternate" content={OG_LOCALES[l]} />
+    ))}
+    
+    <meta property="og:title" content={copy.seoTitle} />
+    <meta property="og:description" content={copy.seoDescription} />
+    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:image:secure_url" content={OG_IMAGE} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta property="og:image:alt" content={copy.heroAlt} />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={copy.seoTitle} />
+    <meta name="twitter:description" content={copy.seoDescription} />
+    <meta name="twitter:image" content={OG_IMAGE} />
+    <meta name="twitter:image:alt" content={copy.heroAlt} />
+    
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline></script>
+    <script define:vars={{ INSTALL_URL }} is:inline>
+      (() => {
+        const host = window.location.hostname;
+        const isLocalhost = host === 'localhost' || host === '127.0.0.1';
+        const userAgent = navigator.userAgent || '';
+        const isBot = /bot|crawler|spider|crawling|google|bing|duckduckgo|yandex/i.test(userAgent);
+        const isPhone = /iPhone|iPod|Android.+Mobile|Windows Phone/i.test(userAgent);
+
+        if (!isLocalhost && !isBot && isPhone) {
+          window.location.replace(INSTALL_URL);
+        }
+      })();
+    </script>
+    <title>{copy.seoTitle}</title>
+  </head>
+  <body>
+    <div class="ambient-field" aria-hidden="true">
+      <span class="ambient-glow glow-orange"></span>
+      <span class="ambient-glow glow-violet"></span>
+      <span class="ambient-glow glow-green"></span>
+      <span class="ambient-glow glow-blue"></span>
+    </div>
+
+    <main class="page-shell">
+      <header class="site-header reveal-soft">
+        <a class="brand" href={SITE_URL} aria-label="SummaFit inicio">
+          <img src="/logo.svg" alt="" width="28" height="28" />
+          <span>summa.fit</span>
+        </a>
+      </header>
+
+      <slot />
+    </main>
+
+    <script>
+      import { gsap } from 'gsap';
+
+      const startHeroAnimations = () => {
+        const mm = gsap.matchMedia();
+
+        mm.add(
+          {
+            isDesktop: '(min-width: 900px)',
+            reduceMotion: '(prefers-reduced-motion: reduce)',
+          },
+          (context) => {
+            const conditions = context.conditions as { isDesktop?: boolean; reduceMotion?: boolean } | undefined;
+            const isDesktop = Boolean(conditions?.isDesktop);
+            const reduceMotion = Boolean(conditions?.reduceMotion);
+
+            if (reduceMotion) {
+              gsap.set('.reveal-soft, .reveal-phone', {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                rotation: 0,
+                filter: 'blur(0px)',
+              });
+              return;
+            }
+
+            gsap.set('.reveal-soft', { autoAlpha: 0, y: 18, filter: 'blur(10px)' });
+            gsap.set('.reveal-phone', {
+              autoAlpha: 0,
+              y: isDesktop ? 34 : 24,
+              scale: 0.96,
+              rotation: isDesktop ? 2.2 : 0,
+              filter: 'blur(12px)',
+              transformOrigin: '50% 70%',
+            });
+
+            const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+            intro
+              .to('.reveal-soft', {
+                autoAlpha: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.9,
+                stagger: 0.09,
+              })
+              .to(
+                '.reveal-phone',
+                {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  rotation: isDesktop ? -1.6 : 0,
+                  filter: 'blur(0px)',
+                  duration: 1.05,
+                },
+                '<0.14',
+              );
+
+            gsap.to('.ambient-glow', {
+              scale: 1.09,
+              opacity: 0.78,
+              duration: 5.8,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+              stagger: { each: 0.45, from: 'center' },
+            });
+
+            gsap.to('.glow-orange', { x: 16, y: 10, duration: 7.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            gsap.to('.glow-violet', { x: -14, y: 12, duration: 8.2, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            gsap.to('.glow-green', { x: 12, y: -14, duration: 8.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            gsap.to('.glow-blue', { x: -16, y: -10, duration: 7.9, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+            gsap.to('.hero-product-image', {
+              y: isDesktop ? -10 : -6,
+              rotation: isDesktop ? -0.5 : 0,
+              duration: 3.8,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+            });
+
+            if (isDesktop) {
+              const hero = document.querySelector<HTMLElement>('.hero');
+              const phone = document.querySelector<HTMLElement>('.hero-media');
+
+              if (!hero || !phone) return;
+
+              const rotateXTo = gsap.quickTo(phone, 'rotationX', { duration: 0.55, ease: 'power3' });
+              const rotateYTo = gsap.quickTo(phone, 'rotationY', { duration: 0.55, ease: 'power3' });
+
+              const handlePointerMove = (event: MouseEvent) => {
+                const rect = hero.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+                rotateXTo(y * -5);
+                rotateYTo(x * 6);
+              };
+
+              const handlePointerLeave = () => {
+                rotateXTo(0);
+                rotateYTo(0);
+              };
+
+              hero.addEventListener('mousemove', handlePointerMove);
+              hero.addEventListener('mouseleave', handlePointerLeave);
+
+              return () => {
+                hero.removeEventListener('mousemove', handlePointerMove);
+                hero.removeEventListener('mouseleave', handlePointerLeave);
+              };
+            }
+          },
+        );
+      };
+
+      const queueHeroAnimations = () => window.setTimeout(startHeroAnimations, 120);
+
+      const landingIsland = document.querySelector('astro-island[component-export="LandingExperience"]');
+      if (landingIsland?.hasAttribute('ssr')) {
+        landingIsland.addEventListener('astro:hydrate', queueHeroAnimations, { once: true });
+      } else {
+        queueHeroAnimations();
+      }
+    </script>
+  </body>
+</html>

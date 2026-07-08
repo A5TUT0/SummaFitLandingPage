@@ -1,16 +1,22 @@
 ---
-import BaseLayout from '../components/BaseLayout.astro';
-import { LandingExperience } from '../components/LandingExperience';
-import { COPY, type Locale } from '../lib/i18n';
+import BaseLayout from '../../components/BaseLayout.astro';
+import { LandingExperience } from '../../components/LandingExperience';
+import { COPY, SUPPORTED_LOCALES, type Locale } from '../../lib/i18n';
 import { Image } from 'astro:assets';
-import heroImage from '../../public/images/heroImage.png';
+import heroImage from '../../../public/images/heroImage.png';
 
-const locale: Locale = 'en';
+export function getStaticPaths() {
+  return SUPPORTED_LOCALES.filter(locale => locale !== 'en').map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const { locale } = Astro.params;
 const INSTALL_URL = 'https://apps.apple.com/app/id6787150982';
-const copy = COPY[locale];
+const copy = COPY[locale as Locale];
 ---
 
-<BaseLayout locale={locale} copy={copy}>
+<BaseLayout locale={locale as Locale} copy={copy}>
   <section class="hero" aria-labelledby="hero-title">
     <LandingExperience client:load installUrl={INSTALL_URL} copy={copy} />
     <div class="hero-media reveal-phone" aria-label="SummaFit app preview">
