@@ -31,7 +31,7 @@ export function Iphone({
   ...props
 }: IphoneProps) {
   const hasVideo = !!videoSrc
-  const hasMedia = hasVideo || !!src
+  const hasMedia = hasVideo || !!src || !!children
 
   return (
     <div
