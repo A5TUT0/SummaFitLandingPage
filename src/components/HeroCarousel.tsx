@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Iphone15Pro } from "./ui/iphone-15-pro";
+import { Iphone } from "./ui/iphone";
 import { gsap } from "gsap";
 
 const APP_IMAGES = [
@@ -49,7 +49,7 @@ export default function HeroCarousel() {
 
   return (
     <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
-      <Iphone15Pro className="hero-product-image shadow-2xl">
+      <Iphone className="hero-product-image shadow-2xl">
         <div ref={containerRef} className="relative w-full h-full bg-zinc-950">
           {APP_IMAGES.map((src, idx) => (
             <img
@@ -61,7 +61,7 @@ export default function HeroCarousel() {
             />
           ))}
         </div>
-      </Iphone15Pro>
+      </Iphone>
     </div>
   );
 }
