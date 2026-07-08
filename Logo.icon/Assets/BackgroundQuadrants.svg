@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="75" />
+    </filter>
+  </defs>
+
+  <!-- Quadrants circles -->
+  <!-- Top Left: Orange -->
+  <circle cx="0" cy="0" r="500" fill="#fe7500" opacity="0.55" filter="url(#blur)" />
+  
+  <!-- Top Right: Purple -->
+  <circle cx="1024" cy="0" r="500" fill="#bd68fe" opacity="0.55" filter="url(#blur)" />
+  
+  <!-- Bottom Left: Green -->
+  <circle cx="0" cy="1024" r="500" fill="#4ede66" opacity="0.48" filter="url(#blur)" />
+  
+  <!-- Bottom Right: Blue -->
+  <circle cx="1024" cy="1024" r="500" fill="#32b0fe" opacity="0.55" filter="url(#blur)" />
+</svg>
