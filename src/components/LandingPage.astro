@@ -1,19 +1,7 @@
 ---
 import '../styles/global.css';
-import {
-  ArrowRight,
-  BarChart3,
-  Check,
-  ChevronRight,
-  Droplets,
-  Flame,
-  HeartPulse,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  Utensils,
-} from 'lucide-astro';
-import { copy, languages, localePath, type Locale } from '../i18n';
+import { Flame, Sparkles } from 'lucide-astro';
+import { copy, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -21,41 +9,6 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = copy[locale];
-
-const macroValues = ['118g', '164g', '54g'];
-const macros = t.macros.map((label, index) => ({
-  label,
-  value: macroValues[index],
-  percent: ['82%', '67%', '73%'][index],
-}));
-
-const featureIcons = [Utensils, Droplets, HeartPulse];
-const features = t.features.items.map(([title, body], index) => ({
-  icon: featureIcons[index],
-  title,
-  copy: body,
-}));
-
-const progressValues = ['89%', '94%', '76%'];
-const progressCards = t.results.cards.map((label, index) => ({
-  label,
-  value: progressValues[index],
-}));
-
-const footerCopy = {
-  en: {
-    tagline: 'Daily nutrition, hydration, and habits in one calm view.',
-    links: ['Privacy', 'Contact', 'Beta'],
-  },
-  es: {
-    tagline: 'Nutricion, hidratacion y habitos diarios en una vista tranquila.',
-    links: ['Privacidad', 'Contacto', 'Beta'],
-  },
-  de: {
-    tagline: 'Ernaehrung, Hydration und taegliche Gewohnheiten in einer ruhigen Ansicht.',
-    links: ['Datenschutz', 'Kontakt', 'Beta'],
-  },
-}[locale];
 ---
 
 <!doctype html>
@@ -71,280 +24,55 @@ const footerCopy = {
     <title>{t.title}</title>
   </head>
   <body>
-    <div class="ambient-lines pointer-events-none fixed inset-0 z-0"></div>
+    <main class="relative min-h-screen overflow-hidden px-5 py-6 sm:px-8">
+      <a href="/" class="quiet-brand" aria-label={t.aria.home}>
+        <span class="brand-dot"><Flame size={17} strokeWidth={2.3} /></span>
+        <span>SummaFit</span>
+      </a>
 
-    <header class="fixed left-0 right-0 top-4 z-50 px-4">
-      <nav class="minimal-nav mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label={t.aria.nav}>
-        <a href={localePath(locale)} class="flex items-center gap-3" aria-label={t.aria.home}>
-          <span class="brand-mark grid size-9 place-items-center rounded-full text-white">
-            <Flame size={18} strokeWidth={2.4} />
-          </span>
-          <span class="text-base font-semibold tracking-normal">SummaFit</span>
-        </a>
-        <div class="hidden items-center gap-8 text-sm font-medium text-[var(--text-secondary)] md:flex">
-          <a class="transition hover:text-[var(--text-main)]" href="#features">{t.nav.features}</a>
-          <a class="transition hover:text-[var(--text-main)]" href="#daily">{t.nav.daily}</a>
-          <a class="transition hover:text-[var(--text-main)]" href="#results">{t.nav.results}</a>
+      <section class="minimal-hero mx-auto grid min-h-[calc(100vh-3rem)] max-w-6xl items-center gap-12 lg:grid-cols-[0.92fr_1.08fr]">
+        <div class="hero-copy">
+          <p class="hero-kicker">
+            <Sparkles size={15} />
+            {t.hero.eyebrow}
+          </p>
+          <h1 class="hero-title">SummaFit</h1>
+          <p class="hero-text">{t.hero.body}</p>
         </div>
-        <div class="flex items-center gap-2">
-          <div class="hidden items-center rounded-full border border-[var(--line)] bg-white/80 p-1 text-xs font-semibold text-[var(--text-secondary)] sm:flex">
-            {Object.entries(languages).map(([code, label]) => (
-              <a
-                class:list={[
-                  'rounded-full px-3 py-1.5 transition',
-                  code === locale ? 'bg-[var(--text-main)] text-white' : 'hover:text-[var(--text-main)]',
-                ]}
-                href={localePath(code as Locale)}
-                aria-label={label}
-              >
-                {code.toUpperCase()}
-              </a>
-            ))}
-          </div>
-          <a href="#download" class="nav-cta inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold text-white transition hover:-translate-y-0.5">
-            {t.nav.cta}
-            <ArrowRight size={16} />
-          </a>
-        </div>
-      </nav>
-    </header>
 
-    <main class="relative z-10">
-      <section class="hero-section px-4 pb-16 pt-28 sm:px-6 lg:px-8 lg:pt-32">
-        <div class="mx-auto grid min-h-[calc(100vh-8rem)] max-w-6xl items-center gap-12 lg:grid-cols-[1.04fr_0.96fr]">
-          <div class="hero-copy max-w-3xl">
-            <div class="hero-kicker mb-7 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)]">
-              <Sparkles size={16} />
-              {t.hero.eyebrow}
-            </div>
-            <h1 class="hero-title text-6xl font-semibold leading-[0.95] tracking-normal text-[var(--text-main)] sm:text-7xl lg:text-8xl">
-              SummaFit
-            </h1>
-            <p class="mt-7 max-w-2xl text-lg leading-8 text-[var(--text-secondary)] sm:text-xl">
-              {t.hero.body}
-            </p>
-            <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a href="#download" class="primary-button inline-flex h-13 items-center justify-center gap-3 rounded-full px-6 text-base font-semibold text-white transition hover:-translate-y-1 sm:h-14 sm:px-7">
-                {t.hero.primaryCta}
-                <ChevronRight size={19} />
-              </a>
-              <a href="#features" class="secondary-button inline-flex h-13 items-center justify-center gap-3 rounded-full px-6 text-base font-semibold transition hover:-translate-y-1 sm:h-14 sm:px-7">
-                {t.hero.secondaryCta}
-                <BarChart3 size={18} />
-              </a>
-            </div>
-          </div>
-
-          <div class="hero-system relative">
-            <div class="orbital-ring" aria-hidden="true"></div>
-            <div class="signal-panel metric-panel p-6 sm:p-8">
-              <div class="flex items-start justify-between gap-6">
-                <div>
-                  <p class="text-sm font-medium text-[var(--text-secondary)]">{t.phone.calories}</p>
-                  <p class="mt-2 text-5xl font-semibold tracking-normal">1,680</p>
-                </div>
-                <span class="grid size-12 place-items-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]">
-                  <Flame size={23} />
-                </span>
-              </div>
-              <div class="mt-8 space-y-4">
-                {macros.map((macro) => (
-                  <div class="macro-row grid grid-cols-[88px_1fr_56px] items-center gap-4 text-sm">
-                    <span class="font-medium text-[var(--text-secondary)]">{macro.label}</span>
-                    <span class="h-1.5 overflow-hidden rounded-full bg-[var(--line)]">
-                      <span class="macro-fill block h-full rounded-full" style={`width:${macro.percent}`}></span>
-                    </span>
-                    <span class="text-right font-semibold">{macro.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div class="floating-note hydration-note p-5">
-              <div class="flex items-center gap-3">
-                <span class="grid size-10 place-items-center rounded-full bg-[var(--blue-soft)] text-[var(--blue-main)]"><Droplets size={20} /></span>
-                <div>
-                  <p class="text-sm font-semibold">{t.phone.hydration}</p>
-                  <p class="text-xs text-[var(--text-secondary)]">1.8 / 2.4 L</p>
-                </div>
-              </div>
-            </div>
-            <div class="floating-note streak-note p-5">
-              <p class="text-3xl font-semibold">92%</p>
-              <p class="mt-1 text-sm text-[var(--text-secondary)]">{t.hero.stats[0]}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="features" class="section-wrap px-4 py-20 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-6xl">
-          <div class="section-title max-w-2xl">
-            <p class="eyebrow">{t.features.eyebrow}</p>
-            <h2 class="mt-3 text-4xl font-semibold tracking-normal sm:text-5xl">{t.features.title}</h2>
-          </div>
-          <div class="mt-10 grid gap-4 md:grid-cols-3">
-            {features.map((feature) => (
-              <article class="feature-card surface p-7">
-                <span class="grid size-11 place-items-center rounded-full bg-[var(--surface-muted)] text-[var(--accent)]">
-                  <feature.icon size={22} />
-                </span>
-                <h3 class="mt-7 text-xl font-semibold">{feature.title}</h3>
-                <p class="mt-3 leading-7 text-[var(--text-secondary)]">{feature.copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="daily" class="section-wrap px-4 py-20 sm:px-6 lg:px-8">
-        <div class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div class="section-title">
-            <p class="eyebrow text-[var(--blue-main)]">{t.daily.eyebrow}</p>
-            <h2 class="mt-3 text-4xl font-semibold tracking-normal sm:text-5xl">{t.daily.title}</h2>
-            <p class="mt-5 text-lg leading-8 text-[var(--text-secondary)]">{t.daily.body}</p>
-          </div>
-          <div class="routine-stack surface p-5 sm:p-6">
-            <div class="routine-row">
-              <div class="flex items-center gap-4">
-                <span class="grid size-11 place-items-center rounded-full bg-[var(--blue-soft)] text-[var(--blue-main)]"><Droplets size={22} /></span>
-                <div>
-                  <h3 class="font-semibold">{t.daily.hydration}</h3>
-                  <p class="text-sm text-[var(--text-secondary)]">{t.phone.waterProgress}</p>
-                </div>
-              </div>
-              <span class="text-sm font-semibold text-[var(--blue-main)]">75%</span>
-            </div>
-            <div class="routine-row">
-              <div class="flex items-center gap-4">
-                <span class="grid size-11 place-items-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]"><Flame size={22} /></span>
-                <div>
-                  <h3 class="font-semibold">{t.daily.energy}</h3>
-                  <p class="text-sm text-[var(--text-secondary)]">{t.daily.energyBody}</p>
-                </div>
-              </div>
-              <span class="text-sm font-semibold text-[var(--accent)]">{t.daily.caloriesFree}</span>
-            </div>
-            <div class="routine-row">
-              <div class="flex items-center gap-4">
-                <span class="grid size-11 place-items-center rounded-full bg-[var(--green-soft)] text-[var(--green-main)]"><Target size={22} /></span>
-                <div>
-                  <h3 class="font-semibold">{t.daily.habits}</h3>
-                  <p class="text-sm text-[var(--text-secondary)]">{t.daily.habitsBody}</p>
-                </div>
-              </div>
-              <div class="flex gap-1.5">
-                {Array.from({ length: 4 }).map(() => <span class="grid size-8 place-items-center rounded-full bg-[var(--green-soft)] text-[var(--green-main)]"><Check size={16} /></span>)}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="results" class="section-wrap px-4 py-20 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-6xl">
-          <div class="section-title max-w-2xl">
-            <p class="eyebrow text-[var(--green-main)]">{t.results.eyebrow}</p>
-            <h2 class="mt-3 text-4xl font-semibold tracking-normal sm:text-5xl">{t.results.title}</h2>
-            <p class="mt-5 text-lg leading-8 text-[var(--text-secondary)]">{t.results.body}</p>
-          </div>
-          <div class="mt-10 grid gap-4 sm:grid-cols-3">
-            {progressCards.map((card) => (
-              <div class="progress-card surface p-7">
-                <p class="text-5xl font-semibold tracking-normal">{card.value}</p>
-                <p class="mt-4 font-semibold">{card.label}</p>
-                <div class="mt-6 h-1.5 overflow-hidden rounded-full bg-[var(--line)]">
-                  <div class="progress-line h-full rounded-full bg-[var(--text-main)]" style={`width:${card.value}`}></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="download" class="px-4 py-24 sm:px-6 lg:px-8">
-        <div class="cta-panel mx-auto max-w-5xl px-6 py-12 text-center sm:px-10 sm:py-16">
-          <div class="section-title">
-            <p class="eyebrow">{t.download.eyebrow}</p>
-            <h2 class="mx-auto mt-3 max-w-3xl text-4xl font-semibold tracking-normal sm:text-6xl">{t.download.title}</h2>
-            <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">{t.download.body}</p>
-          </div>
-          <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href="mailto:hola@summafit.app" class="primary-button inline-flex h-14 items-center justify-center gap-3 rounded-full px-8 text-base font-semibold text-white transition hover:-translate-y-1">
-              {t.download.cta}
-              <ArrowRight size={20} />
-            </a>
-            <a href="#" class="secondary-button inline-flex h-14 items-center justify-center gap-3 rounded-full px-8 text-base font-semibold transition hover:-translate-y-1">
-              <ShieldCheck size={20} />
-              {t.download.badge}
-            </a>
+        <div class="spin-stage" aria-hidden="true">
+          <div class="summa-orbit">
+            <span class="orbit-dot orbit-dot-orange"></span>
+            <span class="orbit-dot orbit-dot-lavender"></span>
+            <span class="orbit-dot orbit-dot-mint"></span>
+            <span class="orbit-dot orbit-dot-sky"></span>
+            <span class="orbit-core"></span>
+            <span class="orbit-line orbit-line-one"></span>
+            <span class="orbit-line orbit-line-two"></span>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="relative z-10 px-4 pb-10 sm:px-6 lg:px-8">
-      <div class="mx-auto flex max-w-6xl flex-col gap-5 border-t border-[var(--line)] pt-8 text-sm text-[var(--text-secondary)] sm:flex-row sm:items-center sm:justify-between">
-        <div class="flex items-center gap-3">
-          <span class="brand-mark grid size-9 place-items-center rounded-full text-white">
-            <Flame size={18} strokeWidth={2.4} />
-          </span>
-          <div>
-            <p class="font-semibold text-[var(--text-main)]">SummaFit</p>
-            <p>{footerCopy.tagline}</p>
-          </div>
-        </div>
-        <div class="flex flex-wrap gap-4 font-semibold">
-          {footerCopy.links.map((link) => (
-            <a class="transition hover:text-[var(--accent)]" href="#download">{link}</a>
-          ))}
-        </div>
-      </div>
-    </footer>
-
     <script>
       import { gsap } from 'gsap';
-      import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-      gsap.registerPlugin(ScrollTrigger);
 
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (!prefersReduced) {
-        const hero = gsap.timeline({ defaults: { ease: 'power4.out' } });
-
-        hero
-          .from('.minimal-nav', { y: -18, opacity: 0, duration: 0.7 })
+        gsap
+          .timeline({ defaults: { ease: 'power4.out' } })
+          .from('.quiet-brand', { y: -14, opacity: 0, duration: 0.7 })
           .from('.hero-kicker', { y: 18, opacity: 0, duration: 0.65 }, '-=0.25')
-          .from('.hero-title', { yPercent: 18, opacity: 0, duration: 0.95 }, '-=0.2')
-          .from('.hero-copy p, .hero-copy a', { y: 24, opacity: 0, duration: 0.75, stagger: 0.07 }, '-=0.42')
-          .from('.orbital-ring', { scale: 0.82, rotate: -18, opacity: 0, duration: 1.1 }, '-=0.75')
-          .from('.signal-panel', { y: 38, scale: 0.96, opacity: 0, duration: 0.9 }, '-=0.75')
-          .from('.floating-note', { y: 26, scale: 0.94, opacity: 0, duration: 0.65, stagger: 0.12 }, '-=0.48')
-          .from('.macro-fill', { scaleX: 0, transformOrigin: 'left center', duration: 0.9, stagger: 0.1 }, '-=0.45');
+          .from('.hero-title', { yPercent: 14, opacity: 0, duration: 0.95 }, '-=0.2')
+          .from('.hero-text', { y: 20, opacity: 0, duration: 0.75 }, '-=0.45')
+          .from('.summa-orbit', { scale: 0.82, opacity: 0, rotate: -20, duration: 1.2 }, '-=0.65')
+          .from('.orbit-dot', { scale: 0, opacity: 0, duration: 0.65, stagger: 0.08 }, '-=0.55');
 
-        gsap.to('.orbital-ring', { rotate: 360, duration: 28, repeat: -1, ease: 'none' });
-        gsap.to('.floating-note', { y: -10, duration: 3.6, repeat: -1, yoyo: true, stagger: 0.35, ease: 'sine.inOut' });
-        gsap.to('.metric-panel', { y: -8, duration: 4.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-
-        gsap.utils.toArray<HTMLElement>('.section-title, .feature-card, .routine-stack, .progress-card, .cta-panel').forEach((element) => {
-          gsap.from(element, {
-            y: 34,
-            opacity: 0,
-            duration: 0.85,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: element, start: 'top 84%' },
-          });
-        });
-
-        gsap.utils.toArray<HTMLElement>('.progress-line').forEach((line) => {
-          gsap.from(line, {
-            scaleX: 0,
-            transformOrigin: 'left center',
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: line, start: 'top 88%' },
-          });
-        });
+        gsap.to('.summa-orbit', { rotate: 360, duration: 32, repeat: -1, ease: 'none' });
+        gsap.to('.orbit-core', { scale: 1.08, duration: 3.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        gsap.to('.orbit-line-one', { rotate: 360, duration: 18, repeat: -1, ease: 'none' });
+        gsap.to('.orbit-line-two', { rotate: -360, duration: 24, repeat: -1, ease: 'none' });
       }
     </script>
   </body>
