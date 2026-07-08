@@ -11,6 +11,13 @@ import '../styles/global.css';
     <title>SummaFit</title>
   </head>
   <body>
+    <div class="ambient-field" aria-hidden="true">
+      <span class="ambient-glow glow-orange"></span>
+      <span class="ambient-glow glow-violet"></span>
+      <span class="ambient-glow glow-green"></span>
+      <span class="ambient-glow glow-blue"></span>
+    </div>
+
     <main class="page-shell">
       <header class="site-header reveal-soft">
         <a class="brand" href="/" aria-label="SummaFit inicio">SummaFit</a>
@@ -47,6 +54,21 @@ import '../styles/global.css';
           ease: 'power3.out',
           delay: 0.08,
         });
+
+        gsap.to('.ambient-glow', {
+          scale: 1.08,
+          opacity: 0.72,
+          duration: 5.8,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          stagger: { each: 0.55, yoyo: true, repeat: -1 },
+        });
+
+        gsap.to('.glow-orange', { x: 14, y: 10, duration: 7.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        gsap.to('.glow-violet', { x: -12, y: 12, duration: 8.2, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        gsap.to('.glow-green', { x: 12, y: -12, duration: 8.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        gsap.to('.glow-blue', { x: -14, y: -10, duration: 7.9, repeat: -1, yoyo: true, ease: 'sine.inOut' });
       }
     </script>
   </body>
