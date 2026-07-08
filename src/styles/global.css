@@ -304,6 +304,234 @@ a {
   outline-offset: 5px;
 }
 
+.install-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  min-height: 100dvh;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(13, 15, 22, 0.38);
+  backdrop-filter: blur(10px) saturate(1.06);
+}
+
+.install-dialog-panel {
+  position: relative;
+  width: min(100%, 720px);
+  overflow: hidden;
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.64);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(245, 247, 250, 0.9) 100%),
+    var(--summa-surface);
+  color: var(--summa-text);
+  box-shadow:
+    0 32px 90px rgba(13, 15, 22, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.install-dialog-panel::before {
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    135deg,
+    rgba(254, 117, 0, 0.82),
+    rgba(189, 104, 254, 0.54),
+    rgba(50, 176, 254, 0.58),
+    rgba(78, 222, 102, 0.5),
+    rgba(254, 117, 0, 0.82)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: install-border-shift 5.2s ease-in-out infinite;
+}
+
+.install-dialog-panel:focus {
+  outline: none;
+}
+
+.install-copy-button:focus-visible {
+  outline: 3px solid rgba(255, 115, 0, 0.28);
+  outline-offset: 4px;
+}
+
+.install-dialog-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 24px;
+  align-items: center;
+}
+
+.install-dialog-message {
+  min-width: 0;
+  padding-right: 0;
+}
+
+.install-dialog-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  margin: 0 0 14px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 115, 0, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 115, 0, 0.08);
+  color: var(--summa-orange);
+  font-size: 13px;
+  font-weight: 780;
+}
+
+.install-dialog-message h2 {
+  max-width: 410px;
+  margin: 0;
+  color: var(--summa-text);
+  font-size: 34px;
+  font-weight: 790;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+
+.install-dialog-message p {
+  max-width: 430px;
+  margin: 14px 0 0;
+  color: var(--summa-text-sub);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.install-qr-frame {
+  position: relative;
+  display: grid;
+  width: 250px;
+  aspect-ratio: 1;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid var(--summa-border-strong);
+  border-radius: 8px;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(255, 153, 38, 0.12), rgba(50, 176, 254, 0.1)),
+    #ffffff;
+  box-shadow:
+    0 20px 44px rgba(13, 15, 22, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.install-qr-frame::before {
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(13, 15, 22, 0.07);
+  border-radius: 8px;
+  pointer-events: none;
+  content: "";
+}
+
+.install-qr-frame img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.install-link-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px solid var(--summa-border);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.035);
+}
+
+.install-link-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.install-link-copy span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--summa-text-muted);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.install-link-copy code {
+  display: block;
+  overflow: hidden;
+  color: var(--summa-text-sub);
+  font-family:
+    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.install-copy-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--summa-orange) 0%, var(--summa-orange-glow) 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 780;
+  cursor: pointer;
+  box-shadow:
+    0 14px 30px rgba(255, 115, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+.install-copy-button:hover {
+  filter: saturate(1.08);
+  box-shadow:
+    0 18px 38px rgba(255, 115, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  transform: translateY(-1px);
+}
+
+@keyframes install-border-shift {
+  0%,
+  100% {
+    opacity: 0.64;
+    filter: saturate(1);
+  }
+
+  50% {
+    opacity: 1;
+    filter: saturate(1.22);
+  }
+}
+
 .availability {
   margin: 0;
   color: var(--summa-text-muted);
@@ -432,6 +660,39 @@ a {
     width: 100%;
     height: auto;
     max-height: none;
+  }
+
+  .install-dialog-panel {
+    max-height: calc(100svh - 32px);
+    padding: 24px 18px 18px;
+    overflow: auto;
+  }
+
+  .install-dialog-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .install-dialog-message {
+    padding-right: 0;
+  }
+
+  .install-dialog-message h2 {
+    font-size: 28px;
+  }
+
+  .install-qr-frame {
+    width: min(230px, 100%);
+    margin: 0 auto;
+  }
+
+  .install-link-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .install-copy-button {
+    width: 100%;
   }
 }
 
