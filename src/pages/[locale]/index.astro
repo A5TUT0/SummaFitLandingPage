@@ -5,6 +5,8 @@ import { COPY, SUPPORTED_LOCALES, type Locale } from '../../lib/i18n';
 import { Image } from 'astro:assets';
 import heroImage from '../../../public/images/heroImage.png';
 
+import HeroCarousel from '../../components/HeroCarousel';
+
 export function getStaticPaths() {
   return SUPPORTED_LOCALES.filter(locale => locale !== 'en').map((locale) => ({
     params: { locale },
@@ -21,15 +23,7 @@ const copy = COPY[locale as Locale];
     <LandingExperience client:load installUrl={INSTALL_URL} copy={copy} />
     <div class="hero-media reveal-phone" aria-label="SummaFit app preview">
       <div class="phone-shadow" aria-hidden="true" />
-      <Image
-        src={heroImage}
-        alt={copy.heroAlt}
-        class="hero-product-image"
-        loading="eager"
-        fetchpriority="high"
-        widths={[400, 800, 1080]}
-        sizes="(max-width: 800px) 400px, (max-width: 1200px) 800px, 1080px"
-      />
+      <HeroCarousel client:load />
     </div>
   </section>
   <section class="sr-only">

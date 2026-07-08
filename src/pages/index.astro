@@ -5,6 +5,8 @@ import { COPY, type Locale } from '../lib/i18n';
 import { Image } from 'astro:assets';
 import heroImage from '../../public/images/heroImage.png';
 
+import HeroCarousel from '../components/HeroCarousel';
+
 const locale: Locale = 'en';
 const INSTALL_URL = 'https://apps.apple.com/app/id6787150982';
 const copy = COPY[locale];
@@ -15,15 +17,7 @@ const copy = COPY[locale];
     <LandingExperience client:load installUrl={INSTALL_URL} copy={copy} />
     <div class="hero-media reveal-phone" aria-label="SummaFit app preview">
       <div class="phone-shadow" aria-hidden="true" />
-      <Image
-        src={heroImage}
-        alt={copy.heroAlt}
-        class="hero-product-image"
-        loading="eager"
-        fetchpriority="high"
-        widths={[400, 800, 1080]}
-        sizes="(max-width: 800px) 400px, (max-width: 1200px) 800px, 1080px"
-      />
+      <HeroCarousel client:load />
     </div>
   </section>
   <section class="sr-only">
