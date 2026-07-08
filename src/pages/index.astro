@@ -1,5 +1,53 @@
 ---
-import LandingPage from '../components/LandingPage.astro';
+import '../styles/global.css';
 ---
 
-<LandingPage locale="en" />
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SummaFit es una experiencia minimalista para seguimiento nutricional." />
+    <title>SummaFit</title>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header reveal-soft">
+        <a class="brand" href="/" aria-label="SummaFit inicio">SummaFit</a>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-inner">
+          <p class="eyebrow reveal-soft">Private beta</p>
+          <h1 id="hero-title" class="title reveal-soft">Nutrition tracking, quiet by design.</h1>
+          <p class="subtitle reveal-soft">
+            SummaFit keeps calories, macros, water, and daily habits in one focused space.
+            No noise. No clutter. Just the essentials.
+          </p>
+          <div class="actions reveal-soft">
+            <a class="button" href="mailto:hola@summafit.app">Request access</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      import { gsap } from 'gsap';
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReducedMotion) {
+        gsap.set('.reveal-soft', { opacity: 0, y: 18, filter: 'blur(12px)' });
+        gsap.to('.reveal-soft', {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 1.05,
+          stagger: 0.11,
+          ease: 'power3.out',
+          delay: 0.08,
+        });
+      }
+    </script>
+  </body>
+</html>
