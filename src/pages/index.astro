@@ -1,27 +1,20 @@
 ---
-import BaseLayout from '../components/BaseLayout.astro';
-import { LandingExperience } from '../components/LandingExperience';
-import { COPY, type Locale } from '../lib/i18n';
-
-import HeroCarousel from '../components/HeroCarousel';
-
-const locale: Locale = 'en';
-const INSTALL_URL = 'https://apps.apple.com/app/id6787150982';
-const copy = COPY[locale];
+const target = "/en";
 ---
 
-<BaseLayout locale={locale} copy={copy}>
-  <section class="hero" aria-labelledby="hero-title">
-    <LandingExperience client:load installUrl={INSTALL_URL} copy={copy} />
-    <div class="hero-media reveal-phone" aria-label="SummaFit app preview">
-      <div class="phone-shadow" aria-hidden="true" />
-      <HeroCarousel client:load />
-    </div>
-  </section>
-  <section class="sr-only">
-    <h2>{copy.seoTitle}</h2>
-    <p>{copy.seoDescription}</p>
-    <h3>{copy.title}</h3>
-    <p>{copy.subtitle}</p>
-  </section>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={`https://summa.fit${target}`} />
+    <script define:vars={{ target }} is:inline>
+      window.location.replace(target);
+    </script>
+    <title>SummaFit</title>
+  </head>
+  <body>
+    <a href={target}>Continue to SummaFit</a>
+  </body>
+</html>

@@ -1,109 +1,72 @@
 ---
-const updatedAt = "July 9, 2026";
+import type { LegalCopy } from "../lib/i18n";
 
-const sections = [
-  {
-    title: "What SummaFit stores",
-    body: [
-      "SummaFit stores your profile settings, nutrition targets, food logs, water logs, weight entries, favorites, recent foods, app preferences, reminder settings, and product corrections on your device.",
-      "Your profile is protected with AES-GCM before it is saved. Other app history is stored locally in the iOS app sandbox and is not uploaded to SummaFit servers.",
-    ],
-  },
-  {
-    title: "Health data",
-    body: [
-      "Apple Health integration is optional. If you grant permission, SummaFit can read steps, active energy, body mass, and walking or running distance, and can write body mass, dietary energy, and water entries.",
-      "Health data is used only to power app features you request. You can manage or revoke Health permissions in the iOS Health app or iOS Settings.",
-    ],
-  },
-  {
-    title: "Food search and barcode scans",
-    body: [
-      "When you scan a barcode, SummaFit may contact Open Food Facts to retrieve public product information for that barcode. The request can include the barcode and standard network information such as IP address and user agent.",
-      "Manual food entries and corrections you create are kept locally on your device unless you choose to export or share them.",
-    ],
-  },
-  {
-    title: "Notifications",
-    body: [
-      "If you enable reminders, SummaFit schedules local notifications on your device for meals, hydration, weight logging, or inactivity nudges.",
-      "These reminders are managed locally and do not require SummaFit to run a notification server.",
-    ],
-  },
-  {
-    title: "Exporting and deleting data",
-    body: [
-      "You can export your personal data from Settings as a JSON file. The file is created on your device so you can save or share it yourself.",
-      "You can also clear your app data from Settings. Deleting the app may remove locally stored SummaFit data according to iOS behavior.",
-    ],
-  },
-  {
-    title: "Third parties",
-    body: [
-      "SummaFit does not sell your personal information. The app relies on Apple platform services and may use Open Food Facts for barcode product lookup.",
-      "If you open the App Store, Apple handles that interaction under Apple's own terms and privacy policy.",
-    ],
-  },
-  {
-    title: "Contact",
-    body: [
-      "For privacy questions, data requests, or corrections to this policy, contact SummaFit at privacy@summa.fit.",
-      "This policy may be updated as SummaFit changes. The latest version will be available at https://summa.fit/privacy.",
-    ],
-  },
-];
+interface Props {
+  copy: LegalCopy;
+}
+
+const { copy } = Astro.props;
 ---
 
-<section class="policy-hero">
-  <div class="policy-hero-copy">
-    <p class="policy-eyebrow">Privacy Policy</p>
-    <h1>Privacy built for a local-first nutrition app.</h1>
-    <p>
-      SummaFit is designed to keep your tracking data close to you. This policy
-      explains what the app stores, when it contacts outside services, and how
-      you can export or delete your data.
+<div class="doc-wrap">
+
+  <div class="doc-intro">
+    <span class="doc-badge">{copy.eyebrow}</span>
+    <h1 class="doc-title">{copy.heading}</h1>
+    <p class="doc-lead">{copy.intro}</p>
+    <p class="doc-date">
+      <span>{copy.updatedLabel}:&nbsp;</span><time>{copy.updatedAt}</time>
     </p>
   </div>
 
-  <aside class="policy-summary magic-card" aria-label="Policy summary">
-    <span class="border-beam" aria-hidden="true"></span>
-    <p>Effective date</p>
-    <strong>{updatedAt}</strong>
-    <dl>
-      <div>
-        <dt>Canonical URL</dt>
-        <dd>summa.fit/privacy</dd>
-      </div>
-      <div>
-        <dt>Data model</dt>
-        <dd>Local-first</dd>
-      </div>
-      <div>
-        <dt>Sales of data</dt>
-        <dd>None</dd>
-      </div>
+  <div class="doc-summary" role="region" aria-label={copy.summaryLabel}>
+    <p class="doc-summary-label">{copy.summaryLabel}</p>
+    <dl class="doc-summary-grid">
+      {
+        copy.summaryItems.map((item) => (
+          <div>
+            <dt>{item.term}</dt>
+            <dd>{item.detail}</dd>
+          </div>
+        ))
+      }
     </dl>
-  </aside>
-</section>
+  </div>
 
-<section class="policy-grid" aria-label="Privacy policy sections">
-  {
-    sections.map((section, index) => (
-      <article class="policy-card magic-card">
-        <span class="border-beam" aria-hidden="true"></span>
-        <span class="policy-card-index">{String(index + 1).padStart(2, "0")}</span>
-        <h2>{section.title}</h2>
-        {section.body.map((paragraph) => (
-          <p>{paragraph}</p>
-        ))}
-      </article>
-    ))
-  }
-</section>
+  <div class="doc-body">
+    <nav class="doc-toc" aria-label="Table of contents">
+      <p class="doc-toc-label">Contents</p>
+      <ol>
+        {
+          copy.sections.map((section, index) => (
+            <li>
+              <a href={`#section-${index + 1}`}>
+                <span class="doc-toc-num">{String(index + 1).padStart(2, "0")}</span>
+                {section.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
 
-<section class="policy-note">
-  <p>
-    This page is provided for transparency and App Store review. It is not a
-    substitute for legal advice for your individual situation.
-  </p>
-</section>
+    <div class="doc-sections">
+      {
+        copy.sections.map((section, index) => (
+          <section id={`section-${index + 1}`} class="doc-section">
+            <p class="doc-section-num">{String(index + 1).padStart(2, "0")}</p>
+            <h2>{section.title}</h2>
+            {section.body.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </section>
+        ))
+      }
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p>{copy.note}</p>
+  </footer>
+
+</div>

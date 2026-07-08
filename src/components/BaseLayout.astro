@@ -5,6 +5,7 @@ import {
   type LandingCopy,
   SUPPORTED_LOCALES,
   OG_LOCALES,
+  localizedPath,
 } from "../lib/i18n";
 
 interface Props {
@@ -18,7 +19,9 @@ const INSTALL_URL = "https://apps.apple.com/app/id6787150982";
 const APP_STORE_ID = "6787150982";
 const SITE_URL = "https://summa.fit";
 const OG_IMAGE = `${SITE_URL}/newog-image.png`;
-const HERO_IMAGE = "/images/homePage.png";
+const HERO_VIDEO = "/summafit-app-preview.mp4";
+const canonicalPath = localizedPath(locale);
+const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -26,11 +29,11 @@ const structuredData = {
   name: "SummaFit",
   applicationCategory: "HealthApplication",
   operatingSystem: "iOS",
-  url: SITE_URL,
+  url: canonicalUrl,
   downloadUrl: INSTALL_URL,
   image: OG_IMAGE,
   description: copy.seoDescription,
-  inLanguage: ["en", "es", "de", "fr", "it"],
+  inLanguage: SUPPORTED_LOCALES,
   offers: {
     "@type": "Offer",
     price: "0",
@@ -60,31 +63,23 @@ const structuredData = {
     <meta name="theme-color" content="#F5F7FA" />
     <meta name="author" content="SummaFit" />
 
-    <link
-      rel="canonical"
-      href={locale === "en" ? SITE_URL : `${SITE_URL}/${locale}`}
-    />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/logo.svg" type="image/svg+xml" />
 
-    <link rel="alternate" hreflang="x-default" href={SITE_URL} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE_URL}/en`} />
     {
       SUPPORTED_LOCALES.map((l) => (
         <link
           rel="alternate"
           hreflang={l}
-          href={l === "en" ? SITE_URL : `${SITE_URL}/${l}`}
+          href={`${SITE_URL}${localizedPath(l)}`}
         />
       ))
     }
 
-    <link rel="preload" as="image" href={HERO_IMAGE} fetchpriority="high" />
-
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SummaFit" />
-    <meta
-      property="og:url"
-      content={locale === "en" ? SITE_URL : `${SITE_URL}/${locale}`}
-    />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content={OG_LOCALES[locale]} />
     {
       SUPPORTED_LOCALES.filter((l) => l !== locale).map((l) => (

@@ -65,7 +65,7 @@ export function Iphone({
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="auto"
           />
         </div>
       )}

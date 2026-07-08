@@ -1,0 +1,29 @@
+---
+import { localizedPath, SUPPORTED_LOCALES, type Locale } from "../../lib/i18n";
+
+export function getStaticPaths() {
+  return SUPPORTED_LOCALES.map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const locale = Astro.params.locale as Locale;
+const target = localizedPath(locale, "/policy");
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={`https://summa.fit${target}`} />
+    <script define:vars={{ target }} is:inline>
+      window.location.replace(target);
+    </script>
+    <title>SummaFit</title>
+  </head>
+  <body>
+    <a href={target}>Continue to SummaFit privacy policy</a>
+  </body>
+</html>

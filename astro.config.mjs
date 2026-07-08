@@ -7,10 +7,10 @@ export default defineConfig({
   site: 'https://summa.fit',
   integrations: [react(), sitemap()],
   i18n: {
-    locales: ['en', 'es', 'de', 'fr', 'it'],
+    locales: ['en', 'es', 'fr'],
     defaultLocale: 'en',
     routing: {
-      prefixDefaultLocale: false,
+      prefixDefaultLocale: true,
     },
   },
   vite: {

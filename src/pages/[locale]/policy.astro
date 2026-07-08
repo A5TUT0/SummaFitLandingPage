@@ -1,0 +1,18 @@
+---
+import LegalLayout from "../../components/LegalLayout.astro";
+import PrivacyPolicyContent from "../../components/PrivacyPolicyContent.astro";
+import { LEGAL_COPY, SUPPORTED_LOCALES, type Locale } from "../../lib/i18n";
+
+export function getStaticPaths() {
+  return SUPPORTED_LOCALES.map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const locale = Astro.params.locale as Locale;
+const copy = LEGAL_COPY[locale];
+---
+
+<LegalLayout locale={locale} copy={copy} path="/policy">
+  <PrivacyPolicyContent copy={copy} />
+</LegalLayout>

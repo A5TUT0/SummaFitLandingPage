@@ -1,12 +1,20 @@
 ---
-import LegalLayout from "../components/LegalLayout.astro";
-import PrivacyPolicyContent from "../components/PrivacyPolicyContent.astro";
-
-const title = "Privacy Policy | SummaFit";
-const description =
-  "SummaFit privacy policy for local-first nutrition tracking, Apple Health permissions, barcode lookup, exports, and deletion.";
+const target = "/en/policy";
 ---
 
-<LegalLayout title={title} description={description} canonicalPath="/privacy">
-  <PrivacyPolicyContent />
-</LegalLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={`https://summa.fit${target}`} />
+    <script define:vars={{ target }} is:inline>
+      window.location.replace(target);
+    </script>
+    <title>Privacy Policy | SummaFit</title>
+  </head>
+  <body>
+    <a href={target}>Continue to SummaFit privacy policy</a>
+  </body>
+</html>
