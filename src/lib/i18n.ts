@@ -13,6 +13,7 @@ export type LandingCopy = {
   qrDialogCopy: string;
   qrDialogCopied: string;
   qrDialogQrAlt: string;
+  privacyPolicy: string;
   seoTitle: string;
   seoDescription: string;
   heroAlt: string;
@@ -42,6 +43,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopy: "Copy link",
     qrDialogCopied: "Copied",
     qrDialogQrAlt: "QR code to install SummaFit from the App Store",
+    privacyPolicy: "Privacy Policy",
     seoTitle: "SummaFit | Scan. Track. Transform.",
     seoDescription:
       "SummaFit is a free iPhone app for daily nutrition tracking: calories, macros, hydration, barcode scanning, progress, and Apple Health.",
@@ -60,6 +62,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopy: "Copiar link",
     qrDialogCopied: "Copiado",
     qrDialogQrAlt: "Código QR para instalar SummaFit desde el App Store",
+    privacyPolicy: "Política de privacidad",
     seoTitle: "SummaFit | Escanea. Registra. Avanza.",
     seoDescription:
       "SummaFit es una app gratis para iPhone para llevar nutrición diaria: calorías, macros, agua, escáner de alimentos, progreso y Apple Health.",
@@ -78,6 +81,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopy: "Link kopieren",
     qrDialogCopied: "Kopiert",
     qrDialogQrAlt: "QR-Code zur Installation von SummaFit aus dem App Store",
+    privacyPolicy: "Datenschutzerklärung",
     seoTitle: "SummaFit | Scannen. Erfassen. Vorankommen.",
     seoDescription:
       "SummaFit ist eine kostenlose iPhone-App für tägliches Nutrition Tracking: Kalorien, Makros, Wasser, Barcode-Scanner, Fortschritt und Apple Health.",
@@ -96,6 +100,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopy: "Copier le lien",
     qrDialogCopied: "Copié",
     qrDialogQrAlt: "QR code pour installer SummaFit depuis l'App Store",
+    privacyPolicy: "Politique de confidentialité",
     seoTitle: "SummaFit | Scannez. Suivez. Progressez.",
     seoDescription:
       "SummaFit est une app iPhone gratuite pour suivre la nutrition quotidienne: calories, macros, eau, scan alimentaire, progrès et Apple Health.",
@@ -114,6 +119,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopy: "Copia link",
     qrDialogCopied: "Copiato",
     qrDialogQrAlt: "Codice QR per installare SummaFit dall'App Store",
+    privacyPolicy: "Informativa sulla privacy",
     seoTitle: "SummaFit | Scansiona. Registra. Migliora.",
     seoDescription:
       "SummaFit è un'app gratuita per iPhone per seguire nutrizione quotidiana: calorie, macro, acqua, scanner alimentare, progressi e Apple Health.",

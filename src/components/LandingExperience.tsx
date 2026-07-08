@@ -307,6 +307,9 @@ export function LandingExperience({
             <span>{copy.cta}</span>
           </a>
           <p className="availability">{copy.availability}</p>
+          <a className="privacy-link" href="/privacy">
+            {copy.privacyPolicy}
+          </a>
         </div>
       </div>
 

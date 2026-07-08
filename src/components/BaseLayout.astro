@@ -18,7 +18,7 @@ const INSTALL_URL = "https://apps.apple.com/app/id6787150982";
 const APP_STORE_ID = "6787150982";
 const SITE_URL = "https://summa.fit";
 const OG_IMAGE = `${SITE_URL}/newog-image.png`;
-const HERO_IMAGE = "/images/heroImage.png";
+const HERO_IMAGE = "/images/homePage.png";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -179,10 +179,10 @@ const structuredData = {
             });
             gsap.set(".reveal-phone", {
               autoAlpha: 0,
-              y: isDesktop ? 34 : 24,
-              scale: 0.96,
-              rotation: isDesktop ? 2.2 : 0,
-              filter: "blur(12px)",
+              y: isDesktop ? 42 : 24,
+              scale: 0.94,
+              rotation: isDesktop ? -5.5 : 0,
+              filter: "blur(14px)",
               transformOrigin: "50% 70%",
             });
 
@@ -199,11 +199,11 @@ const structuredData = {
                 ".reveal-phone",
                 {
                   autoAlpha: 1,
-                  y: 0,
-                  scale: 1,
-                  rotation: isDesktop ? -1.6 : 0,
+                y: 0,
+                scale: 1,
+                  rotation: isDesktop ? -2.2 : 0,
                   filter: "blur(0px)",
-                  duration: 1.05,
+                  duration: 1.18,
                 },
                 "<0.14",
               );
@@ -252,9 +252,9 @@ const structuredData = {
             });
 
             gsap.to(".hero-product-image", {
-              y: isDesktop ? -10 : -6,
-              rotation: isDesktop ? -0.5 : 0,
-              duration: 3.8,
+              y: isDesktop ? -6 : -4,
+              rotation: isDesktop ? 0.2 : 0,
+              duration: 5.6,
               repeat: -1,
               yoyo: true,
               ease: "sine.inOut",
@@ -267,11 +267,11 @@ const structuredData = {
               if (!hero || !phone) return;
 
               const rotateXTo = gsap.quickTo(phone, "rotationX", {
-                duration: 0.55,
+                duration: 0.7,
                 ease: "power3",
               });
               const rotateYTo = gsap.quickTo(phone, "rotationY", {
-                duration: 0.55,
+                duration: 0.7,
                 ease: "power3",
               });
 
@@ -279,8 +279,8 @@ const structuredData = {
                 const rect = hero.getBoundingClientRect();
                 const x = (event.clientX - rect.left) / rect.width - 0.5;
                 const y = (event.clientY - rect.top) / rect.height - 0.5;
-                rotateXTo(y * -5);
-                rotateYTo(x * 6);
+                rotateXTo(y * -3.5);
+                rotateYTo(x * 4.5);
               };
 
               const handlePointerLeave = () => {

@@ -1,0 +1,12 @@
+---
+import LegalLayout from "../components/LegalLayout.astro";
+import PrivacyPolicyContent from "../components/PrivacyPolicyContent.astro";
+
+const title = "Privacy Policy | SummaFit";
+const description =
+  "SummaFit privacy policy for local-first nutrition tracking, Apple Health permissions, barcode lookup, exports, and deletion.";
+---
+
+<LegalLayout title={title} description={description} canonicalPath="/privacy">
+  <PrivacyPolicyContent />
+</LegalLayout>
