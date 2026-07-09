@@ -14,6 +14,7 @@ export type LandingCopy = {
   qrDialogCopied: string;
   qrDialogQrAlt: string;
   privacyPolicy: string;
+  support: string;
   seoTitle: string;
   seoDescription: string;
   heroAlt: string;
@@ -39,6 +40,29 @@ export type LegalCopy = {
   }>;
   sections: LegalSection[];
   note: string;
+  languageLabel: string;
+  homeLabel: string;
+};
+
+export type FAQItem = {
+  question: string;
+  answer: string[];
+};
+
+export type SupportCopy = {
+  pageTitle: string;
+  metaDescription: string;
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  updatedLabel: string;
+  updatedAt: string;
+  faqCategoryTitle: string;
+  faqs: FAQItem[];
+  contactHeading: string;
+  contactText: string;
+  contactEmail: string;
+  backHome: string;
   languageLabel: string;
   homeLabel: string;
 };
@@ -77,6 +101,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopied: "Copied",
     qrDialogQrAlt: "QR code to install SummaFit from the App Store",
     privacyPolicy: "Privacy Policy",
+    support: "Support",
     seoTitle: "SummaFit | Scan. Track. Transform.",
     seoDescription:
       "SummaFit is a free iPhone app for daily nutrition tracking: calories, macros, hydration, barcode scanning, progress, and Apple Health.",
@@ -96,6 +121,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopied: "Copiado",
     qrDialogQrAlt: "Código QR para instalar SummaFit desde el App Store",
     privacyPolicy: "Política de privacidad",
+    support: "Soporte",
     seoTitle: "SummaFit | Escanea. Registra. Avanza.",
     seoDescription:
       "SummaFit es una app gratis para iPhone para llevar nutrición diaria: calorías, macros, agua, escáner de alimentos, progreso y Apple Health.",
@@ -115,6 +141,7 @@ export const COPY: Record<Locale, LandingCopy> = {
     qrDialogCopied: "Copié",
     qrDialogQrAlt: "QR code pour installer SummaFit depuis l'App Store",
     privacyPolicy: "Politique de confidentialité",
+    support: "Support",
     seoTitle: "SummaFit | Scannez. Suivez. Progressez.",
     seoDescription:
       "SummaFit est une app iPhone gratuite pour suivre la nutrition quotidienne: calories, macros, eau, scan alimentaire, progrès et Apple Health.",
@@ -339,4 +366,169 @@ export const LEGAL_COPY: Record<Locale, LegalCopy> = {
     languageLabel: "Langue",
     homeLabel: "Accueil",
   },
+};
+
+export const SUPPORT_COPY: Record<Locale, SupportCopy> = {
+  en: {
+    pageTitle: "Support & FAQ | SummaFit",
+    metaDescription: "Get help and find answers to frequently asked questions about SummaFit, the local-first nutrition tracker for iPhone.",
+    eyebrow: "Support Center",
+    heading: "We're here to help.",
+    intro: "Find quick answers to common questions about SummaFit's local-first database, tracking features, Apple Health integration, and privacy.",
+    updatedLabel: "Last updated",
+    updatedAt: "July 9, 2026",
+    faqCategoryTitle: "Frequently Asked Questions",
+    faqs: [
+      {
+        question: "What is SummaFit?",
+        answer: [
+          "SummaFit is a clean, local-first app designed for daily nutrition tracking. It allows you to monitor your calories, macronutrients (protein, carbs, fats), water intake, and body weight logs without any ads, accounts, or mandatory cloud servers."
+        ]
+      },
+      {
+        question: "How does local-first storage work?",
+        answer: [
+          "All tracking logs, favorites, and settings are saved directly in your iPhone's local sandbox storage. Your profile settings are encrypted with AES-GCM. No tracking data is uploaded to outside servers, keeping your privacy secure."
+        ]
+      },
+      {
+        question: "Does the app require a login or account?",
+        answer: [
+          "No. You don't need to register, create a password, or sign in with an email. Once you download the app from the App Store, you can start tracking your food and water intake immediately."
+        ]
+      },
+      {
+        question: "How does the barcode scanner lookup food?",
+        answer: [
+          "When you scan a barcode or search for a product, SummaFit contacts Open Food Facts, a public, collaborative database of food products. The query sends only the scanned barcode to retrieve product info. If a product isn't found, you can easily log it manually."
+        ]
+      },
+      {
+        question: "Can I sync my data with Apple Health?",
+        answer: [
+          "Yes. Apple Health integration is fully optional. If you grant permissions, SummaFit can automatically read active energy (calories burned), steps, and weight trends. It can also write your logged water, dietary energy, and macronutrients back to the Health app."
+        ]
+      },
+      {
+        question: "How can I export or back up my data?",
+        answer: [
+          "You can export all your logged data as a clean JSON file directly from the app Settings. You can save this file to your device's Files app, iCloud, or share it. To clear your data, you can delete it from the Settings or simply delete the app."
+        ]
+      }
+    ],
+    contactHeading: "Still have questions?",
+    contactText: "If you couldn't find an answer to your question, feel free to send us an email. Our team will get back to you as soon as possible.",
+    contactEmail: "support@summa.fit",
+    backHome: "Back to Home",
+    languageLabel: "Language",
+    homeLabel: "Home"
+  },
+  es: {
+    pageTitle: "Soporte y FAQ | SummaFit",
+    metaDescription: "Obtén ayuda y encuentra respuestas a las preguntas más frecuentes sobre SummaFit, el registrador de nutrición local-first para iPhone.",
+    eyebrow: "Centro de Soporte",
+    heading: "Estamos aquí para ayudarte.",
+    intro: "Encuentra respuestas rápidas a preguntas frecuentes sobre la base de datos local de SummaFit, registro de alimentos, integración con Apple Health y privacidad.",
+    updatedLabel: "Última actualización",
+    updatedAt: "9 de julio de 2026",
+    faqCategoryTitle: "Preguntas Frecuentes",
+    faqs: [
+      {
+        question: "¿Qué es SummaFit?",
+        answer: [
+          "SummaFit es una app limpia y de almacenamiento local diseñada para el registro de nutrición diario. Te permite monitorizar calorías, macronutrientes (proteínas, carbohidratos, grasas), consumo de agua y peso, sin anuncios, cuentas ni servidores obligatorios en la nube."
+        ]
+      },
+      {
+        question: "¿Cómo funciona el almacenamiento local-first?",
+        answer: [
+          "Todos tus registros, alimentos favoritos y configuraciones se guardan directamente en el almacenamiento local seguro de tu iPhone. Los datos de perfil están encriptados con AES-GCM. Tus datos no se suben a ningún servidor externo."
+        ]
+      },
+      {
+        question: "¿La aplicación requiere iniciar sesión o crear una cuenta?",
+        answer: [
+          "No. No necesitas registrarte, crear contraseñas ni ingresar tu correo. Una vez instalada desde el App Store, puedes empezar a registrar tus comidas e hidratación al instante."
+        ]
+      },
+      {
+        question: "¿Cómo busca alimentos el escáner de códigos de barras?",
+        answer: [
+          "Al escanear un código de barras, la app contacta con Open Food Facts, una base de datos colaborativa y pública de alimentos. Solo se envía el código de barras para obtener la información nutricional. Si un producto no existe, puedes registrarlo manualmente."
+        ]
+      },
+      {
+        question: "¿Puedo sincronizar mis datos con Apple Health?",
+        answer: [
+          "Sí. La integración con Apple Health es opcional. Si autorizas los permisos, SummaFit puede leer pasos, energía activa y peso de forma automática, y puede escribir tu agua, calorías y macros registrados en la app Salud."
+        ]
+      },
+      {
+        question: "¿Cómo puedo exportar o eliminar mis datos?",
+        answer: [
+          "Puedes exportar todos tus registros como un archivo JSON desde los Ajustes de la app para guardarlo en iCloud o compartirlo. Si deseas borrar todo, puedes hacerlo desde los Ajustes de la app o simplemente desinstalando la app."
+        ]
+      }
+    ],
+    contactHeading: "¿Tienes más preguntas?",
+    contactText: "Si no encontraste la respuesta que buscabas, escríbenos un correo electrónico y te ayudaremos con gusto.",
+    contactEmail: "support@summa.fit",
+    backHome: "Volver al Inicio",
+    languageLabel: "Idioma",
+    homeLabel: "Inicio"
+  },
+  fr: {
+    pageTitle: "Support & FAQ | SummaFit",
+    metaDescription: "Obtenez de l'aide et trouvez des réponses aux questions fréquemment posées sur SummaFit, le suivi de nutrition locale sur iPhone.",
+    eyebrow: "Centre de Support",
+    heading: "Nous sommes là pour vous aider.",
+    intro: "Trouvez des réponses rapides aux questions fréquentes concernant le stockage local de SummaFit, le suivi des repas, l'intégration Apple Health et la confidentialité.",
+    updatedLabel: "Dernière mise à jour",
+    updatedAt: "9 juillet 2026",
+    faqCategoryTitle: "Questions Fréquemment Posées",
+    faqs: [
+      {
+        question: "Qu'est-ce que SummaFit ?",
+        answer: [
+          "SummaFit est une application simple et locale conçue pour le suivi nutritionnel quotidien. Elle vous permet de suivre vos calories, vos macronutriments (protéines, glucides, lipides), votre consommation d'eau et votre poids, sans publicité, compte ou serveur cloud obligatoire."
+        ]
+      },
+      {
+        question: "Comment fonctionne le stockage local ?",
+        answer: [
+          "Toutes vos données de suivi, favoris et paramètres sont enregistrés directement dans le stockage local de votre iPhone. Votre profil est chiffré avec AES-GCM. Aucune donnée n'est envoyée sur des serveurs externes."
+        ]
+      },
+      {
+        question: "L'application nécessite-t-elle un compte ?",
+        answer: [
+          "Non. Vous n'avez pas besoin de vous inscrire, de créer un mot de passe ou de renseigner un e-mail. Dès l'installation depuis l'App Store, vous pouvez commencer à enregistrer vos repas immédiatement."
+        ]
+      },
+      {
+        question: "Comment le scanner de code-barres recherche-t-il les aliments ?",
+        answer: [
+          "Lorsque vous scannez un code-barres, SummaFit interroge Open Food Facts, une base de données collaborative et publique. Seul le code-barres est envoyé. Si un produit n'existe pas, vous pouvez le saisir manuellement."
+        ]
+      },
+      {
+        question: "Puis-je synchroniser mes données avec Apple Health ?",
+        answer: [
+          "Oui. L'intégration Apple Health est facultative. Si vous l'autorisez, SummaFit peut lire vos pas, vos calories actives et votre poids, et enregistrer votre eau, vos calories et macros directement dans l'application Santé."
+        ]
+      },
+      {
+        question: "Comment exporter ou supprimer mes données ?",
+        answer: [
+          "Vous pouvez exporter toutes vos données de suivi au format JSON depuis les Réglages de l'application pour les enregistrer ou les partager. Pour tout supprimer, utilisez l'option dans les Réglages ou désinstallez l'application."
+        ]
+      }
+    ],
+    contactHeading: "Vous avez d'autres questions ?",
+    contactText: "Si vous n'avez pas trouvé la réponse à votre question, n'hésitez pas à nous envoyer un e-mail. Notre équipe vous répondra dans les plus brefs délais.",
+    contactEmail: "support@summa.fit",
+    backHome: "Retour à l'Accueil",
+    languageLabel: "Langue",
+    homeLabel: "Accueil"
+  }
 };

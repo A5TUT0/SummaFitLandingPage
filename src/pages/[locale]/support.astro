@@ -1,0 +1,545 @@
+---
+import LegalLayout from "../../components/LegalLayout.astro";
+import { SUPPORT_COPY, SUPPORTED_LOCALES, type Locale } from "../../lib/i18n";
+import { Cpu, Mail, ShieldAlert, Check, Copy, Search } from "lucide-astro";
+
+export function getStaticPaths() {
+  return SUPPORTED_LOCALES.map((locale) => ({
+    params: { locale },
+  }));
+}
+
+const locale = Astro.params.locale as Locale;
+const copy = SUPPORT_COPY[locale];
+
+// Convert SupportCopy shape to what LegalLayout expects
+const layoutCopy = {
+  pageTitle: copy.pageTitle,
+  metaDescription: copy.metaDescription,
+  languageLabel: copy.languageLabel,
+  homeLabel: copy.homeLabel,
+} as any;
+---
+
+<LegalLayout locale={locale} copy={layoutCopy} path="/support">
+  <div class="support-container">
+    
+    <div class="support-intro">
+      <span class="support-badge">{copy.eyebrow}</span>
+      <h1 class="support-title">{copy.heading}</h1>
+      <p class="support-lead">{copy.intro}</p>
+      
+      <div class="search-wrapper">
+        <span class="search-icon">
+          <Search size={18} strokeWidth={2.4} />
+        </span>
+        <input 
+          type="text" 
+          id="faq-search" 
+          class="search-input" 
+          placeholder={locale === "es" ? "Buscar preguntas..." : locale === "fr" ? "Rechercher des questions..." : "Search questions..."} 
+          aria-label="Search FAQs"
+        />
+      </div>
+    </div>
+
+    <div class="support-grid">
+      
+      <section class="faq-main">
+        <h2 class="faq-section-title">{copy.faqCategoryTitle}</h2>
+        
+        <div id="faq-list" class="faq-list">
+          {
+            copy.faqs.map((faq, index) => (
+              <details class="faq-item" name="faq-accordion">
+                <summary class="faq-summary">
+                  <span class="faq-question">{faq.question}</span>
+                  <svg 
+                    class="faq-chevron" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    stroke-width="2.5" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </summary>
+                <div class="faq-content">
+                  {faq.answer.map((para) => (
+                    <p>{para}</p>
+                  ))}
+                </div>
+              </details>
+            ))
+          }
+        </div>
+
+        <div id="no-results-msg" class="no-results">
+          <ShieldAlert size={28} style="margin: 0 auto 12px; color: var(--summa-text-muted);" />
+          <p>{locale === "es" ? "No se encontraron preguntas que coincidan con tu búsqueda." : locale === "fr" ? "Aucune question ne correspond à votre recherche." : "No questions matched your search."}</p>
+        </div>
+      </section>
+
+      <aside class="sidebar-widgets">
+        
+        <!-- Status & Diagnostics -->
+        <div class="sidebar-widget">
+          <h3 class="widget-title">
+            <Cpu size={16} style="color: var(--summa-orange);" />
+            <span>{locale === "es" ? "Diagnósticos" : locale === "fr" ? "Diagnostics" : "Diagnostics"}</span>
+          </h3>
+          <div class="status-list">
+            <div class="status-item">
+              <span class="status-label">{locale === "es" ? "Almacenamiento" : locale === "fr" ? "Stockage" : "Storage"}</span>
+              <span class="status-value">
+                <span class="status-dot"></span>
+                <span>{locale === "es" ? "Local-First" : locale === "fr" ? "Local-First" : "Local-First"}</span>
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">{locale === "es" ? "Buscador de Alimentos" : locale === "fr" ? "Scanner d'Aliments" : "Food Search"}</span>
+              <span class="status-value">
+                <span class="status-dot"></span>
+                <span>Open Food Facts</span>
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">{locale === "es" ? "Sincronización Salud" : locale === "fr" ? "Sync Santé" : "Health Sync"}</span>
+              <span class="status-value">
+                <span class="status-dot"></span>
+                <span>Apple Health</span>
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">{locale === "es" ? "Publicidad" : locale === "fr" ? "Publicité" : "Ads / Trackers"}</span>
+              <span class="status-value">
+                <span class="status-dot orange"></span>
+                <span>{locale === "es" ? "0% Ninguno" : locale === "fr" ? "0% Aucun" : "0% None"}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Support -->
+        <div class="sidebar-widget">
+          <h3 class="widget-title">
+            <Mail size={16} style="color: var(--summa-orange);" />
+            <span>{copy.contactHeading}</span>
+          </h3>
+          <p class="widget-text">{copy.contactText}</p>
+          <a class="contact-button" href={`mailto:${copy.contactEmail}`}>
+            <Mail size={15} strokeWidth={2.4} />
+            <span>{locale === "es" ? "Enviar correo" : locale === "fr" ? "Envoyer un e-mail" : "Send Email"}</span>
+          </a>
+          <button class="email-copy-btn" id="copy-email-btn" data-email={copy.contactEmail}>
+            <span class="copy-icon-container" style="display: flex; align-items: center; gap: 8px;">
+              <Copy size={14} strokeWidth={2.4} class="copy-icon" />
+              <Check size={14} strokeWidth={2.4} class="check-icon" style="display: none; color: var(--summa-green);" />
+              <span class="btn-text">{locale === "es" ? "Copiar dirección" : locale === "fr" ? "Copier l'adresse" : "Copy Address"}</span>
+            </span>
+          </button>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+</LegalLayout>
+
+<style>
+  /* Container styling */
+  .support-container {
+    width: min(100%, 980px);
+    margin: 0 auto;
+    padding: 60px 40px 96px;
+  }
+
+  /* Header/Intro styling */
+  .support-intro {
+    margin-bottom: 48px;
+  }
+
+  .support-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid var(--summa-border-strong);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--summa-text-muted);
+  }
+
+  .support-title {
+    margin: 20px 0 0;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+    color: var(--summa-text);
+  }
+
+  .support-lead {
+    max-width: 680px;
+    margin: 20px 0 0;
+    font-size: 17px;
+    line-height: 1.68;
+    color: var(--summa-text-sub);
+  }
+
+  /* Search bar styling */
+  .search-wrapper {
+    position: relative;
+    margin-top: 32px;
+    max-width: 480px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border: 1px solid var(--summa-border-strong);
+    border-radius: 12px;
+    font-size: 15px;
+    background: var(--summa-input-bg, rgba(13, 15, 22, 0.03));
+    color: var(--summa-text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  .search-input:focus {
+    border-color: var(--summa-orange);
+    box-shadow: 0 0 0 3px rgba(254, 117, 0, 0.12);
+    background: #ffffff;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--summa-text-muted);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Support Grid Layout */
+  .support-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .support-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  /* FAQ list */
+  .faq-section-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 24px;
+    color: var(--summa-text);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .faq-item {
+    border: 1px solid var(--summa-border);
+    border-radius: 12px;
+    background: rgba(13, 15, 22, 0.02);
+    overflow: hidden;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .faq-item:hover {
+    border-color: var(--summa-border-strong);
+    background: rgba(13, 15, 22, 0.04);
+  }
+
+  .faq-item[open] {
+    border-color: var(--summa-orange);
+    background: #ffffff;
+    box-shadow: 0 4px 24px rgba(254, 117, 0, 0.04);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    font-size: 15.5px;
+    font-weight: 720;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question {
+    flex: 1;
+    color: var(--summa-text);
+    padding-right: 12px;
+  }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    color: var(--summa-text-muted);
+    transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), color 0.22s ease;
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+    color: var(--summa-orange);
+  }
+
+  .faq-content {
+    padding: 0 20px 18px;
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--summa-text-sub);
+    border-top: 1px dashed var(--summa-border);
+    margin-top: 0;
+    padding-top: 14px;
+  }
+
+  .faq-content p {
+    margin: 0;
+  }
+
+  .faq-content p + p {
+    margin-top: 10px;
+  }
+
+  /* Sidebar styling */
+  .sidebar-widgets {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .sidebar-widget {
+    padding: 24px;
+    border: 1px solid var(--summa-border-strong);
+    border-radius: 16px;
+    background: rgba(13, 15, 22, 0.015);
+    backdrop-filter: blur(8px);
+  }
+
+  .widget-title {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--summa-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .widget-text {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--summa-text-sub);
+    margin: 0 0 16px;
+  }
+
+  /* Contact Buttons */
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 720;
+    text-decoration: none;
+    background: var(--summa-orange);
+    color: #ffffff;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+  }
+
+  .contact-button:active {
+    transform: translateY(0);
+  }
+
+  .email-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 720;
+    background: rgba(13, 15, 22, 0.04);
+    color: var(--summa-text);
+    border: 1px solid var(--summa-border-strong);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  .email-copy-btn:hover {
+    background: rgba(13, 15, 22, 0.08);
+    color: var(--summa-text);
+    border-color: var(--summa-text-muted);
+  }
+
+  /* Status widget elements */
+  .status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--summa-border);
+  }
+
+  .status-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .status-label {
+    color: var(--summa-text-sub);
+  }
+
+  .status-value {
+    font-weight: 720;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--summa-green, #1E9452);
+    display: inline-block;
+  }
+
+  .status-dot.orange {
+    background: var(--summa-orange, #FF7300);
+  }
+
+  /* No results state */
+  .no-results {
+    display: none;
+    padding: 40px 20px;
+    text-align: center;
+    border: 1px dashed var(--summa-border-strong);
+    border-radius: 12px;
+    color: var(--summa-text-muted);
+    font-size: 14.5px;
+  }
+</style>
+
+<script>
+  // Real-time FAQ Search
+  const searchInput = document.getElementById("faq-search") as HTMLInputElement;
+  const faqItems = document.querySelectorAll(".faq-item") as NodeListOf<HTMLDetailsElement>;
+  const noResultsMsg = document.getElementById("no-results-msg") as HTMLDivElement;
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      let matchCount = 0;
+
+      faqItems.forEach((item) => {
+        const questionText = item.querySelector(".faq-question")?.textContent?.toLowerCase() || "";
+        const contentText = item.querySelector(".faq-content")?.textContent?.toLowerCase() || "";
+
+        if (questionText.includes(query) || contentText.includes(query)) {
+          item.style.display = "block";
+          matchCount++;
+          
+          // Expand the item automatically if user is searching, collapse otherwise
+          if (query.length >= 2) {
+            item.setAttribute("open", "");
+          } else {
+            item.removeAttribute("open");
+          }
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      if (matchCount === 0 && query.length > 0) {
+        noResultsMsg.style.display = "block";
+      } else {
+        noResultsMsg.style.display = "none";
+      }
+    });
+  }
+
+  // Copy Email Support Button
+  const copyBtn = document.getElementById("copy-email-btn") as HTMLButtonElement;
+  if (copyBtn) {
+    const emailAddress = copyBtn.getAttribute("data-email") || "";
+    const copyIcon = copyBtn.querySelector(".copy-icon") as HTMLElement;
+    const checkIcon = copyBtn.querySelector(".check-icon") as HTMLElement;
+    const btnText = copyBtn.querySelector(".btn-text") as HTMLElement;
+
+    const originalText = btnText.textContent;
+    const successText = copyBtn.getAttribute("data-email") ? 
+      (document.documentElement.lang === "es" ? "¡Copiado!" : document.documentElement.lang === "fr" ? "Copié !" : "Copied!") 
+      : "Copied!";
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(emailAddress);
+        
+        // Show success state
+        if (copyIcon) copyIcon.style.display = "none";
+        if (checkIcon) checkIcon.style.display = "inline-block";
+        if (btnText) btnText.textContent = successText;
+        copyBtn.style.borderColor = "var(--summa-green)";
+
+        // Reset state after 1.8s
+        setTimeout(() => {
+          if (copyIcon) copyIcon.style.display = "inline-block";
+          if (checkIcon) checkIcon.style.display = "none";
+          if (btnText) btnText.textContent = originalText;
+          copyBtn.style.borderColor = "";
+        }, 1800);
+      } catch (err) {
+        console.error("Failed to copy support email to clipboard", err);
+      }
+    });
+  }
+</script>

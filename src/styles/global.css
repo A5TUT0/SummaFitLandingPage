@@ -558,6 +558,19 @@ a {
   text-decoration-color: currentColor;
 }
 
+.legal-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legal-links .separator {
+  color: var(--summa-text-muted);
+  opacity: 0.4;
+  font-size: 13px;
+  user-select: none;
+}
+
 .hero-highlights {
   display: flex;
   flex-wrap: wrap;

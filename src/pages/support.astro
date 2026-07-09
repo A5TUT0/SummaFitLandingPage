@@ -1,0 +1,20 @@
+---
+const target = "/en/support";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={`https://summa.fit${target}`} />
+    <script define:vars={{ target }} is:inline>
+      window.location.replace(target);
+    </script>
+    <title>Support & FAQ | SummaFit</title>
+  </head>
+  <body>
+    <a href={target}>Continue to SummaFit support</a>
+  </body>
+</html>

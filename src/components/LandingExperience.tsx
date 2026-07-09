@@ -33,10 +33,12 @@ const copyText = async (text: string) => {
 export function LandingExperience({
   installUrl,
   privacyHref,
+  supportHref,
   copy,
 }: {
   installUrl: string;
   privacyHref: string;
+  supportHref: string;
   copy: LandingCopy;
 }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -309,9 +311,15 @@ export function LandingExperience({
             <span>{copy.cta}</span>
           </a>
           <p className="availability">{copy.availability}</p>
-          <a className="privacy-link" href={privacyHref}>
-            {copy.privacyPolicy}
-          </a>
+          <div className="legal-links">
+            <a className="privacy-link" href={privacyHref}>
+              {copy.privacyPolicy}
+            </a>
+            <span className="separator" aria-hidden="true">•</span>
+            <a className="privacy-link" href={supportHref}>
+              {copy.support}
+            </a>
+          </div>
         </div>
       </div>
 

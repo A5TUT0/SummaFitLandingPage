@@ -15,11 +15,12 @@ const { locale } = Astro.params;
 const INSTALL_URL = 'https://apps.apple.com/app/id6787150982';
 const copy = COPY[locale as Locale];
 const privacyHref = localizedPath(locale as Locale, "/policy");
+const supportHref = localizedPath(locale as Locale, "/support");
 ---
 
 <BaseLayout locale={locale as Locale} copy={copy}>
   <section class="hero" aria-labelledby="hero-title">
-    <LandingExperience client:load installUrl={INSTALL_URL} privacyHref={privacyHref} copy={copy} />
+    <LandingExperience client:load installUrl={INSTALL_URL} privacyHref={privacyHref} supportHref={supportHref} copy={copy} />
     <div class="hero-media reveal-phone" aria-label="SummaFit app preview">
       <div class="phone-shadow" aria-hidden="true" />
       <HeroCarousel client:load />
