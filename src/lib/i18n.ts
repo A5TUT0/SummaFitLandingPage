@@ -82,8 +82,8 @@ export const LOCALE_LABELS: Record<Locale, string> = {
 };
 
 export function localizedPath(locale: Locale, path = "") {
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  return `/${locale}${cleanPath === "/" ? "" : cleanPath}`;
+  const cleanPath = path.replace(/^\/+|\/+$/g, "");
+  return cleanPath ? `/${locale}/${cleanPath}/` : `/${locale}/`;
 }
 
 export const COPY: Record<Locale, LandingCopy> = {

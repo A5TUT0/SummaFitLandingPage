@@ -19,7 +19,6 @@ const INSTALL_URL = "https://apps.apple.com/app/id6787150982";
 const APP_STORE_ID = "6787150982";
 const SITE_URL = "https://summa.fit";
 const OG_IMAGE = `${SITE_URL}/newog-image.png`;
-const HERO_VIDEO = "/summafit-app-preview.mp4";
 const canonicalPath = localizedPath(locale);
 const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 
@@ -66,7 +65,11 @@ const structuredData = {
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/logo.svg" type="image/svg+xml" />
 
-    <link rel="alternate" hreflang="x-default" href={`${SITE_URL}/en`} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={`${SITE_URL}${localizedPath("en")}`}
+    />
     {
       SUPPORTED_LOCALES.map((l) => (
         <link

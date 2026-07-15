@@ -34,7 +34,11 @@ const canonicalUrl = `${SITE_URL}${canonicalPath}`;
     <meta name="author" content="SummaFit" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/logo.svg" type="image/svg+xml" />
-    <link rel="alternate" hreflang="x-default" href={`${SITE_URL}/en${path}`} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={`${SITE_URL}${localizedPath("en", path)}`}
+    />
     {
       SUPPORTED_LOCALES.map((l) => (
         <link

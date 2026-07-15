@@ -11,6 +11,9 @@ export default defineConfig({
     defaultLocale: 'en',
     routing: {
       prefixDefaultLocale: true,
+      // Keep the hand-authored zero-delay fallback page. Cloudflare handles
+      // the production redirect at the edge via public/_redirects.
+      redirectToDefaultLocale: false,
     },
   },
   vite: {
