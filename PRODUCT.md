@@ -57,10 +57,10 @@ Comprehensive tracking of logs, streaking consistency, weight fluctuations, and 
 
 - **Biometric Editor**: Modify age, weight, height, activity level, and targets directly.
 - **App Appearance Switcher**: Switch theme styles between System Default, Dark Mode, and Light Mode.
-- **Multi-language Support**: Fully localized into English, Spanish (Español), French (Français), German (Deutsch), and Italian (Italíano).
-- **Custom Meal Reminders**: Enable notifications for specific meal windows (Breakfast, Lunch, Dinner) at custom times.
+- **Multi-language Support**: Fully localized into English, Spanish (Español), French (Français), German (Deutsch), and Italian (Italiano).
+- **Local Reminders**: Configure meal logging reminders, a weekly weight reminder, and an optional inactivity nudge.
 - **GDPR & CCPA Data Management**:
-  - **Export Data**: Generates a shareable PDF/CSV export of logging history.
+  - **Export Data**: Generates a shareable JSON export of profile and logging history.
   - **Clear Local Cache**: Purges offline image and text caches.
   - **Delete My Data / Wipe Everything**: Instantly wipes all user profile data, macros, streaks, and health logs.
 

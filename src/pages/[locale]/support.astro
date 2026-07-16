@@ -38,7 +38,7 @@ const layoutCopy = {
           id="faq-search" 
           class="search-input" 
           placeholder={locale === "es" ? "Buscar preguntas..." : locale === "fr" ? "Rechercher des questions..." : "Search questions..."} 
-          aria-label="Search FAQs"
+          aria-label={locale === "es" ? "Buscar preguntas frecuentes" : locale === "fr" ? "Rechercher dans les questions fréquentes" : "Search frequently asked questions"}
         />
       </div>
     </div>

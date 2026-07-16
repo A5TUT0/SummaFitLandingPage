@@ -4,6 +4,7 @@ import {
   type Locale,
   type LandingCopy,
   SUPPORTED_LOCALES,
+  LOCALE_LABELS,
   OG_LOCALES,
   localizedPath,
 } from "../lib/i18n";
@@ -15,35 +16,84 @@ interface Props {
 
 const { locale, copy } = Astro.props;
 
-const INSTALL_URL = "https://apps.apple.com/app/id6787150982";
-const APP_STORE_ID = "6787150982";
 const SITE_URL = "https://summa.fit";
 const OG_IMAGE = `${SITE_URL}/newog-image.png`;
 const canonicalPath = localizedPath(locale);
 const canonicalUrl = `${SITE_URL}${canonicalPath}`;
+const organizationId = `${SITE_URL}/#organization`;
+const websiteId = `${SITE_URL}/#website`;
+const appId = `${SITE_URL}/#summafit-app`;
+const webpageId = `${canonicalUrl}#webpage`;
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "SummaFit",
-  applicationCategory: "HealthApplication",
-  operatingSystem: "iOS",
-  url: canonicalUrl,
-  downloadUrl: INSTALL_URL,
-  image: OG_IMAGE,
-  description: copy.seoDescription,
-  inLanguage: SUPPORTED_LOCALES,
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-  featureList: [
-    "Barcode food scanning",
-    "Calorie and macro tracking",
-    "Hydration logging",
-    "Progress trends",
-    "Apple Health context",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": organizationId,
+      name: "SummaFit",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo.svg`,
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      name: "SummaFit",
+      url: SITE_URL,
+      inLanguage: SUPPORTED_LOCALES,
+      publisher: { "@id": organizationId },
+    },
+    {
+      "@type": "MobileApplication",
+      "@id": appId,
+      name: "SummaFit",
+      applicationCategory: "HealthApplication",
+      applicationSubCategory: "Calorie and nutrition tracking",
+      operatingSystem: "iOS 18.0 or later",
+      softwareRequirements: "Requires iOS 18.0 or later",
+      url: `${SITE_URL}/en/`,
+      image: OG_IMAGE,
+      description: "Calorie, macro, hydration, weight and nutrition tracking for iPhone.",
+      inLanguage: SUPPORTED_LOCALES,
+      publisher: { "@id": organizationId },
+      featureList: [
+        "Calorie and macro tracking",
+        "Food barcode scanning",
+        "Water and weight tracking",
+        "Personal nutrition targets",
+        "Optional Apple Health integration",
+        "Local-first storage",
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": webpageId,
+      url: canonicalUrl,
+      name: copy.seoTitle,
+      description: copy.seoDescription,
+      inLanguage: locale,
+      isPartOf: { "@id": websiteId },
+      about: { "@id": appId },
+      mainEntity: { "@id": appId },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      url: `${canonicalUrl}#faq`,
+      inLanguage: locale,
+      isPartOf: { "@id": webpageId },
+      mainEntity: copy.content.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
   ],
 };
 ---
@@ -58,7 +108,6 @@ const structuredData = {
     <meta name="googlebot" content="index, follow, max-image-preview:large" />
     <meta name="application-name" content="SummaFit" />
     <meta name="apple-mobile-web-app-title" content="SummaFit" />
-    <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
     <meta name="theme-color" content="#F5F7FA" />
     <meta name="author" content="SummaFit" />
 
@@ -110,24 +159,6 @@ const structuredData = {
       set:html={JSON.stringify(structuredData)}
       is:inline
     />
-    <script define:vars={{ INSTALL_URL }} is:inline>
-      (() => {
-        const host = window.location.hostname;
-        const isLocalhost = host === "localhost" || host === "127.0.0.1";
-        const userAgent = navigator.userAgent || "";
-        const isBot =
-          /bot|crawler|spider|crawling|google|bing|duckduckgo|yandex/i.test(
-            userAgent,
-          );
-        const isPhone = /iPhone|iPod|Android.+Mobile|Windows Phone/i.test(
-          userAgent,
-        );
-
-        if (!isLocalhost && !isBot && isPhone) {
-          window.location.replace(INSTALL_URL);
-        }
-      })();
-    </script>
     <title>{copy.seoTitle}</title>
   </head>
   <body>
@@ -138,9 +169,65 @@ const structuredData = {
       <span class="ambient-glow glow-blue"></span>
     </div>
 
-    <main class="page-shell">
+    <header class="landing-header">
+      <div class="landing-header-inner">
+        <a class="brand" href={localizedPath(locale)} aria-label="SummaFit">
+          <img src="/logo.svg" alt="" width="30" height="30" />
+          <span>SummaFit</span>
+        </a>
+
+        <nav class="landing-navigation" aria-label={copy.content.navigationLabel}>
+          <div class="landing-section-links">
+            <a href="#features">{copy.content.featuresNav}</a>
+            <a href="#how-it-works">{copy.content.howNav}</a>
+            <a href="#faq">{copy.content.faqNav}</a>
+          </div>
+          <div class="landing-language-links" aria-label={copy.content.languageLabel}>
+            {
+              SUPPORTED_LOCALES.map((language) => (
+                <a
+                  href={localizedPath(language)}
+                  hreflang={language}
+                  lang={language}
+                  aria-current={language === locale ? "page" : undefined}
+                >
+                  {LOCALE_LABELS[language]}
+                </a>
+              ))
+            }
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="page-shell">
       <slot />
     </main>
+
+    <footer class="landing-footer">
+      <div class="landing-footer-inner">
+        <div>
+          <a class="brand" href={localizedPath(locale)} aria-label="SummaFit">
+            <img src="/logo.svg" alt="" width="28" height="28" />
+            <span>SummaFit</span>
+          </a>
+          <p>{copy.content.footerTagline}</p>
+        </div>
+        <nav aria-label={copy.content.navigationLabel}>
+          <a href={localizedPath(locale, "policy")}>{copy.privacyPolicy}</a>
+          <a href={localizedPath(locale, "support")}>{copy.support}</a>
+          {
+            SUPPORTED_LOCALES.filter((language) => language !== locale).map(
+              (language) => (
+                <a href={localizedPath(language)} hreflang={language} lang={language}>
+                  {LOCALE_LABELS[language]}
+                </a>
+              ),
+            )
+          }
+        </nav>
+      </div>
+    </footer>
 
     <script>
       import { gsap } from "gsap";

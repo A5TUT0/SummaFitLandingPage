@@ -17,6 +17,7 @@ interface Props {
 
 const { locale, copy, path } = Astro.props;
 const SITE_URL = "https://summa.fit";
+const OG_IMAGE = `${SITE_URL}/newog-image.png`;
 const canonicalPath = localizedPath(locale, path);
 const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 ---
@@ -54,9 +55,13 @@ const canonicalUrl = `${SITE_URL}${canonicalPath}`;
     <meta property="og:locale" content={OG_LOCALES[locale]} />
     <meta property="og:title" content={copy.pageTitle} />
     <meta property="og:description" content={copy.metaDescription} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:image:alt" content={copy.pageTitle} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={copy.pageTitle} />
     <meta name="twitter:description" content={copy.metaDescription} />
+    <meta name="twitter:image" content={OG_IMAGE} />
+    <meta name="twitter:image:alt" content={copy.pageTitle} />
     <title>{copy.pageTitle}</title>
   </head>
   <body class="legal-page">

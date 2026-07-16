@@ -1,6 +1,6 @@
 # Cloudflare Pages applies these at the edge before serving Astro's HTML.
 # This removes the generated two-second "Redirecting to..." page.
-/ /en/ 302
+/ /en/ 301
 
 # Send legacy and compatibility URLs straight to their canonical route,
 # including the trailing slash, so the browser never pays for an extra 308.

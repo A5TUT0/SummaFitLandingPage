@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { createPortal } from "react-dom";
-import { Check, Copy, Download, QrCode } from "lucide-react";
+import { ArrowDown, Check, Copy, Download, QrCode } from "lucide-react";
 import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
-import { type LandingCopy } from "../lib/i18n";
+import { type LandingHeroCopy } from "../lib/i18n";
 
 const INSTALL_QR_SRC = "/install-qr.svg";
 
@@ -35,12 +35,15 @@ export function LandingExperience({
   privacyHref,
   supportHref,
   copy,
+  highlights,
 }: {
   installUrl: string;
   privacyHref: string;
   supportHref: string;
-  copy: LandingCopy;
+  copy: LandingHeroCopy;
+  highlights: string[];
 }) {
+  const isAppStoreLink = installUrl.startsWith("https://apps.apple.com/");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [copyState, setCopyState] = useState<CopyState>("idle");
   const dialogTitleId = useId();
@@ -190,7 +193,7 @@ export function LandingExperience({
   }, []);
 
   const handleInstallClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (!isDesktopInstallSurface()) return;
+    if (!isAppStoreLink || !isDesktopInstallSurface()) return;
 
     event.preventDefault();
     setCopyState("idle");
@@ -298,16 +301,28 @@ export function LandingExperience({
           />
         </h1>
         <p className="subtitle reveal-soft">{copy.subtitle}</p>
+        <ul className="hero-highlights reveal-soft" aria-label={copy.eyebrow}>
+          {highlights.map((highlight) => (
+            <li className="hero-highlight" key={highlight}>
+              <Check aria-hidden="true" size={15} strokeWidth={2.6} />
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
         <div className="actions reveal-soft">
           <a
             className="button"
             href={installUrl}
             aria-label={copy.cta}
-            aria-haspopup="dialog"
-            aria-expanded={isDialogOpen}
+            aria-haspopup={isAppStoreLink ? "dialog" : undefined}
+            aria-expanded={isAppStoreLink ? isDialogOpen : undefined}
             onClick={handleInstallClick}
           >
-            <Download aria-hidden="true" size={18} strokeWidth={2.4} />
+        {isAppStoreLink ? (
+          <Download aria-hidden="true" size={18} strokeWidth={2.4} />
+        ) : (
+          <ArrowDown aria-hidden="true" size={18} strokeWidth={2.4} />
+        )}
             <span>{copy.cta}</span>
           </a>
           <p className="availability">{copy.availability}</p>

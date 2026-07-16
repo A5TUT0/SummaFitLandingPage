@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
 import { LandingExperience } from '../../components/LandingExperience';
+import LandingContent from '../../components/LandingContent.astro';
 import { COPY, SUPPORTED_LOCALES, localizedPath, type Locale } from '../../lib/i18n';
 
 import HeroCarousel from '../../components/HeroCarousel';
@@ -12,24 +13,20 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.params;
-const INSTALL_URL = 'https://apps.apple.com/app/id6787150982';
+const CTA_URL = '#features';
 const copy = COPY[locale as Locale];
+const { content: _content, ...heroCopy } = copy;
 const privacyHref = localizedPath(locale as Locale, "/policy");
 const supportHref = localizedPath(locale as Locale, "/support");
 ---
 
 <BaseLayout locale={locale as Locale} copy={copy}>
   <section class="hero" aria-labelledby="hero-title">
-    <LandingExperience client:load installUrl={INSTALL_URL} privacyHref={privacyHref} supportHref={supportHref} copy={copy} />
-    <div class="hero-media reveal-phone" aria-label="SummaFit app preview">
+    <LandingExperience installUrl={CTA_URL} privacyHref={privacyHref} supportHref={supportHref} copy={heroCopy} highlights={copy.content.highlights} />
+    <figure class="hero-media reveal-phone" aria-label={copy.heroAlt}>
       <div class="phone-shadow" aria-hidden="true" />
       <HeroCarousel />
-    </div>
+    </figure>
   </section>
-  <section class="sr-only">
-    <h2>{copy.seoTitle}</h2>
-    <p>{copy.seoDescription}</p>
-    <h3>{copy.title}</h3>
-    <p>{copy.subtitle}</p>
-  </section>
+  <LandingContent copy={copy} installUrl={CTA_URL} privacyHref={privacyHref} />
 </BaseLayout>
