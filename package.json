@@ -7,7 +7,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "validate:seo": "node scripts/validate-seo.mjs"
+    "validate:seo": "node scripts/validate-seo.mjs",
+    "indexnow:check": "node scripts/submit-indexnow.mjs --dry-run",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

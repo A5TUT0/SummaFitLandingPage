@@ -2,7 +2,12 @@ import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const SITE_URL = "https://summa.fit";
+import {
+  INDEXNOW_KEY,
+  INDEXNOW_KEY_FILE,
+  SITE_URL,
+} from "./indexnow-config.mjs";
+
 const LAST_SIGNIFICANT_UPDATE = "2026-07-16";
 const LOCALES = ["en", "es", "fr", "de", "it"];
 const HREFLANG_VALUES = [...LOCALES, "x-default"];
@@ -139,7 +144,7 @@ const validateAlternates = (linkTags, section, label) => {
   );
 };
 
-const validateJsonLd = (html, label) => {
+const validateJsonLd = (html, label, locale) => {
   const jsonLdBlocks = [];
   const scriptPattern = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
 
@@ -175,6 +180,56 @@ const validateJsonLd = (html, label) => {
         return entityTypes.includes(type);
       }),
       `${label}: JSON-LD is missing ${type}`,
+    );
+  }
+
+  const app = entities.find((entity) => {
+    const types = Array.isArray(entity?.["@type"])
+      ? entity["@type"]
+      : [entity?.["@type"]];
+    return types.includes("MobileApplication");
+  });
+  if (app) {
+    const visibleText = normalizeText(
+      html
+        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+        .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " "),
+    );
+    const description = normalizeText(app.description ?? "");
+    const featureList = Array.isArray(app.featureList) ? app.featureList : [];
+
+    check(
+      app.url === absoluteUrl(locale, ""),
+      `${label}: MobileApplication URL must match the localized canonical`,
+    );
+    check(
+      app.operatingSystem === "iOS 26.0 or later",
+      `${label}: MobileApplication must declare the verified iOS requirement`,
+    );
+    check(
+      Array.isArray(app.inLanguage) &&
+        app.inLanguage.length === LOCALES.length &&
+        LOCALES.every((language) => app.inLanguage.includes(language)),
+      `${label}: MobileApplication languages must match the five languages verified in the app source`,
+    );
+    check(
+      !("softwareRequirements" in app),
+      `${label}: MobileApplication must not misuse softwareRequirements`,
+    );
+    check(
+      !("applicationSubCategory" in app),
+      `${label}: MobileApplication must not use an untranslated subcategory`,
+    );
+    check(
+      description.length > 0 && visibleText.includes(description),
+      `${label}: MobileApplication description must be visible in the hero`,
+    );
+    check(
+      featureList.length > 0 &&
+        featureList.every((feature) =>
+          visibleText.includes(normalizeText(String(feature))),
+        ),
+      `${label}: every MobileApplication feature must be visible in the hero`,
     );
   }
 };
@@ -261,6 +316,16 @@ const validatePage = async (locale, section) => {
       !directives.includes("noindex"),
       `${label}: robots meta must not include noindex`,
     );
+    for (const previewDirective of [
+      "max-image-preview:large",
+      "max-snippet:-1",
+      "max-video-preview:-1",
+    ]) {
+      check(
+        directives.includes(previewDirective),
+        `${label}: robots meta must include ${previewDirective}`,
+      );
+    }
   }
 
   const h1Matches = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
@@ -276,7 +341,7 @@ const validatePage = async (locale, section) => {
   }
 
   if (section === "") {
-    validateJsonLd(html, label);
+    validateJsonLd(html, label, locale);
     check(
       /<section\b[^>]*class=["'][^"']*\bhero\b[^"']*["']/i.test(html),
       `${label}: landing must render the hero`,
@@ -421,6 +486,21 @@ const validateSitemaps = async () => {
   }
 };
 
+const validateIndexNowKey = async () => {
+  check(
+    /^[A-Za-z0-9-]{8,128}$/.test(INDEXNOW_KEY),
+    "IndexNow: key must satisfy the official 8-128 character format",
+  );
+
+  const keyFile = await readRequired(INDEXNOW_KEY_FILE);
+  if (keyFile !== null) {
+    check(
+      keyFile.trim() === INDEXNOW_KEY,
+      `IndexNow: ${INDEXNOW_KEY_FILE} must contain the configured key`,
+    );
+  }
+};
+
 const parseRobotsGroups = (source) => {
   const groups = [];
   let current = { agents: [], allows: [], disallows: [] };
@@ -542,6 +622,7 @@ for (const locale of LOCALES) {
 }
 
 await validateSitemaps();
+await validateIndexNowKey();
 await validateRobots();
 await validate404();
 
