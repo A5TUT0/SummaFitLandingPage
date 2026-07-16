@@ -16,8 +16,7 @@ const isDesktopInstallSurface = () => {
   const isTouchMac =
     /Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1;
   const isMobileOrTablet =
-    /iPhone|iPad|iPod|Android|Windows Phone/i.test(userAgent) ||
-    isTouchMac;
+    /iPhone|iPad|iPod|Android|Windows Phone/i.test(userAgent) || isTouchMac;
 
   return window.matchMedia("(min-width: 900px)").matches && !isMobileOrTablet;
 };
@@ -43,6 +42,7 @@ export function LandingExperience({
   copy: LandingHeroCopy;
   highlights: string[];
 }) {
+  const hasCta = Boolean(installUrl);
   const isAppStoreLink = installUrl.startsWith("https://apps.apple.com/");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [copyState, setCopyState] = useState<CopyState>("idle");
@@ -146,11 +146,7 @@ export function LandingExperience({
 
         gsap
           .timeline({ defaults: { ease: "power3.out" } })
-          .fromTo(
-            backdrop,
-            { autoAlpha: 0 },
-            { autoAlpha: 1, duration: 0.28 },
-          )
+          .fromTo(backdrop, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.28 })
           .fromTo(
             panel,
             { autoAlpha: 0, y: 24, scale: 0.96, filter: "blur(14px)" },
@@ -310,27 +306,31 @@ export function LandingExperience({
           ))}
         </ul>
         <div className="actions reveal-soft">
-          <a
-            className="button"
-            href={installUrl}
-            aria-label={copy.cta}
-            aria-haspopup={isAppStoreLink ? "dialog" : undefined}
-            aria-expanded={isAppStoreLink ? isDialogOpen : undefined}
-            onClick={handleInstallClick}
-          >
-        {isAppStoreLink ? (
-          <Download aria-hidden="true" size={18} strokeWidth={2.4} />
-        ) : (
-          <ArrowDown aria-hidden="true" size={18} strokeWidth={2.4} />
-        )}
-            <span>{copy.cta}</span>
-          </a>
+          {hasCta ? (
+            <a
+              className="button"
+              href={installUrl}
+              aria-label={copy.cta}
+              aria-haspopup={isAppStoreLink ? "dialog" : undefined}
+              aria-expanded={isAppStoreLink ? isDialogOpen : undefined}
+              onClick={handleInstallClick}
+            >
+              {isAppStoreLink ? (
+                <Download aria-hidden="true" size={18} strokeWidth={2.4} />
+              ) : (
+                <ArrowDown aria-hidden="true" size={18} strokeWidth={2.4} />
+              )}
+              <span>{copy.cta}</span>
+            </a>
+          ) : null}
           <p className="availability">{copy.availability}</p>
           <div className="legal-links">
             <a className="privacy-link" href={privacyHref}>
               {copy.privacyPolicy}
             </a>
-            <span className="separator" aria-hidden="true">•</span>
+            <span className="separator" aria-hidden="true">
+              •
+            </span>
             <a className="privacy-link" href={supportHref}>
               {copy.support}
             </a>

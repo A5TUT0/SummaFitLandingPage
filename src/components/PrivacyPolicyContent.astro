@@ -34,8 +34,8 @@ const { copy } = Astro.props;
   </div>
 
   <div class="doc-body">
-    <nav class="doc-toc" aria-label="Table of contents">
-      <p class="doc-toc-label">Contents</p>
+    <nav class="doc-toc" aria-label={copy.contentsNavigationLabel}>
+      <p class="doc-toc-label">{copy.contentsLabel}</p>
       <ol>
         {
           copy.sections.map((section, index) => (

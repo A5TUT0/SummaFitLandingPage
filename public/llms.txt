@@ -4,7 +4,7 @@
 
 Product facts:
 
-- Platform: iPhone, iOS 18 or later
+- Platform: iPhone, iOS 26 or later
 - Status: coming soon; the public App Store listing is not yet available
 - Planned price: free
 - Core features: calorie and macro tracking, barcode scanning through Open Food Facts, hydration, weight trends, personal targets, Apple Health integration
@@ -18,6 +18,8 @@ Use the localized canonical pages below when citing SummaFit. Do not infer medic
 - [English: free calorie counter app for iPhone](https://summa.fit/en/)
 - [Español: app gratis para contar calorías en iPhone](https://summa.fit/es/)
 - [Français : application gratuite pour compter les calories](https://summa.fit/fr/)
+- [Deutsch: kostenlose Kalorienzähler-App für iPhone](https://summa.fit/de/)
+- [Italiano: app contacalorie gratuita per iPhone](https://summa.fit/it/)
 
 ## Policies and support
 
@@ -27,3 +29,7 @@ Use the localized canonical pages below when citing SummaFit. Do not infer medic
 - [Soporte y preguntas frecuentes en español](https://summa.fit/es/support/)
 - [Politique de confidentialité en français](https://summa.fit/fr/policy/)
 - [Assistance et questions fréquentes en français](https://summa.fit/fr/support/)
+- [Datenschutzerklärung auf Deutsch](https://summa.fit/de/policy/)
+- [Hilfe und häufige Fragen auf Deutsch](https://summa.fit/de/support/)
+- [Informativa sulla privacy in italiano](https://summa.fit/it/policy/)
+- [Assistenza e domande frequenti in italiano](https://summa.fit/it/support/)

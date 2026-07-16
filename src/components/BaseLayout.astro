@@ -4,7 +4,6 @@ import {
   type Locale,
   type LandingCopy,
   SUPPORTED_LOCALES,
-  LOCALE_LABELS,
   OG_LOCALES,
   localizedPath,
 } from "../lib/i18n";
@@ -52,11 +51,11 @@ const structuredData = {
       name: "SummaFit",
       applicationCategory: "HealthApplication",
       applicationSubCategory: "Calorie and nutrition tracking",
-      operatingSystem: "iOS 18.0 or later",
-      softwareRequirements: "Requires iOS 18.0 or later",
+      operatingSystem: "iOS 26.0 or later",
+      softwareRequirements: "Requires iOS 26.0 or later",
       url: `${SITE_URL}/en/`,
       image: OG_IMAGE,
-      description: "Calorie, macro, hydration, weight and nutrition tracking for iPhone.",
+      description: copy.seoDescription,
       inLanguage: SUPPORTED_LOCALES,
       publisher: { "@id": organizationId },
       featureList: [
@@ -78,21 +77,6 @@ const structuredData = {
       isPartOf: { "@id": websiteId },
       about: { "@id": appId },
       mainEntity: { "@id": appId },
-    },
-    {
-      "@type": "FAQPage",
-      "@id": `${canonicalUrl}#faq`,
-      url: `${canonicalUrl}#faq`,
-      inLanguage: locale,
-      isPartOf: { "@id": webpageId },
-      mainEntity: copy.content.faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer,
-        },
-      })),
     },
   ],
 };
@@ -169,65 +153,9 @@ const structuredData = {
       <span class="ambient-glow glow-blue"></span>
     </div>
 
-    <header class="landing-header">
-      <div class="landing-header-inner">
-        <a class="brand" href={localizedPath(locale)} aria-label="SummaFit">
-          <img src="/logo.svg" alt="" width="30" height="30" />
-          <span>SummaFit</span>
-        </a>
-
-        <nav class="landing-navigation" aria-label={copy.content.navigationLabel}>
-          <div class="landing-section-links">
-            <a href="#features">{copy.content.featuresNav}</a>
-            <a href="#how-it-works">{copy.content.howNav}</a>
-            <a href="#faq">{copy.content.faqNav}</a>
-          </div>
-          <div class="landing-language-links" aria-label={copy.content.languageLabel}>
-            {
-              SUPPORTED_LOCALES.map((language) => (
-                <a
-                  href={localizedPath(language)}
-                  hreflang={language}
-                  lang={language}
-                  aria-current={language === locale ? "page" : undefined}
-                >
-                  {LOCALE_LABELS[language]}
-                </a>
-              ))
-            }
-          </div>
-        </nav>
-      </div>
-    </header>
-
     <main id="main-content" class="page-shell">
       <slot />
     </main>
-
-    <footer class="landing-footer">
-      <div class="landing-footer-inner">
-        <div>
-          <a class="brand" href={localizedPath(locale)} aria-label="SummaFit">
-            <img src="/logo.svg" alt="" width="28" height="28" />
-            <span>SummaFit</span>
-          </a>
-          <p>{copy.content.footerTagline}</p>
-        </div>
-        <nav aria-label={copy.content.navigationLabel}>
-          <a href={localizedPath(locale, "policy")}>{copy.privacyPolicy}</a>
-          <a href={localizedPath(locale, "support")}>{copy.support}</a>
-          {
-            SUPPORTED_LOCALES.filter((language) => language !== locale).map(
-              (language) => (
-                <a href={localizedPath(language)} hreflang={language} lang={language}>
-                  {LOCALE_LABELS[language]}
-                </a>
-              ),
-            )
-          }
-        </nav>
-      </div>
-    </footer>
 
     <script>
       import { gsap } from "gsap";

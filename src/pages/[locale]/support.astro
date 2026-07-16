@@ -37,8 +37,8 @@ const layoutCopy = {
           type="text" 
           id="faq-search" 
           class="search-input" 
-          placeholder={locale === "es" ? "Buscar preguntas..." : locale === "fr" ? "Rechercher des questions..." : "Search questions..."} 
-          aria-label={locale === "es" ? "Buscar preguntas frecuentes" : locale === "fr" ? "Rechercher dans les questions fréquentes" : "Search frequently asked questions"}
+          placeholder={copy.ui.searchPlaceholder}
+          aria-label={copy.ui.searchLabel}
         />
       </div>
     </div>
@@ -78,7 +78,7 @@ const layoutCopy = {
 
         <div id="no-results-msg" class="no-results">
           <ShieldAlert size={28} style="margin: 0 auto 12px; color: var(--summa-text-muted);" />
-          <p>{locale === "es" ? "No se encontraron preguntas que coincidan con tu búsqueda." : locale === "fr" ? "Aucune question ne correspond à votre recherche." : "No questions matched your search."}</p>
+          <p>{copy.ui.noResults}</p>
         </div>
       </section>
 
@@ -88,35 +88,35 @@ const layoutCopy = {
         <div class="sidebar-widget">
           <h3 class="widget-title">
             <Cpu size={16} style="color: var(--summa-orange);" />
-            <span>{locale === "es" ? "Diagnósticos" : locale === "fr" ? "Diagnostics" : "Diagnostics"}</span>
+            <span>{copy.ui.diagnostics}</span>
           </h3>
           <div class="status-list">
             <div class="status-item">
-              <span class="status-label">{locale === "es" ? "Almacenamiento" : locale === "fr" ? "Stockage" : "Storage"}</span>
+              <span class="status-label">{copy.ui.storage}</span>
               <span class="status-value">
                 <span class="status-dot"></span>
-                <span>{locale === "es" ? "Local-First" : locale === "fr" ? "Local-First" : "Local-First"}</span>
+                <span>{copy.ui.localFirst}</span>
               </span>
             </div>
             <div class="status-item">
-              <span class="status-label">{locale === "es" ? "Buscador de Alimentos" : locale === "fr" ? "Scanner d'Aliments" : "Food Search"}</span>
+              <span class="status-label">{copy.ui.foodSearch}</span>
               <span class="status-value">
                 <span class="status-dot"></span>
                 <span>Open Food Facts</span>
               </span>
             </div>
             <div class="status-item">
-              <span class="status-label">{locale === "es" ? "Sincronización Salud" : locale === "fr" ? "Sync Santé" : "Health Sync"}</span>
+              <span class="status-label">{copy.ui.healthSync}</span>
               <span class="status-value">
                 <span class="status-dot"></span>
                 <span>Apple Health</span>
               </span>
             </div>
             <div class="status-item">
-              <span class="status-label">{locale === "es" ? "Publicidad" : locale === "fr" ? "Publicité" : "Ads / Trackers"}</span>
+              <span class="status-label">{copy.ui.advertising}</span>
               <span class="status-value">
                 <span class="status-dot orange"></span>
-                <span>{locale === "es" ? "0% Ninguno" : locale === "fr" ? "0% Aucun" : "0% None"}</span>
+                <span>{copy.ui.none}</span>
               </span>
             </div>
           </div>
@@ -131,13 +131,13 @@ const layoutCopy = {
           <p class="widget-text">{copy.contactText}</p>
           <a class="contact-button" href={`mailto:${copy.contactEmail}`}>
             <Mail size={15} strokeWidth={2.4} />
-            <span>{locale === "es" ? "Enviar correo" : locale === "fr" ? "Envoyer un e-mail" : "Send Email"}</span>
+            <span>{copy.ui.sendEmail}</span>
           </a>
-          <button class="email-copy-btn" id="copy-email-btn" data-email={copy.contactEmail}>
+          <button class="email-copy-btn" id="copy-email-btn" data-email={copy.contactEmail} data-copied-label={copy.ui.copied}>
             <span class="copy-icon-container" style="display: flex; align-items: center; gap: 8px;">
               <Copy size={14} strokeWidth={2.4} class="copy-icon" />
               <Check size={14} strokeWidth={2.4} class="check-icon" style="display: none; color: var(--summa-green);" />
-              <span class="btn-text">{locale === "es" ? "Copiar dirección" : locale === "fr" ? "Copier l'adresse" : "Copy Address"}</span>
+              <span class="btn-text">{copy.ui.copyAddress}</span>
             </span>
           </button>
         </div>
@@ -516,9 +516,7 @@ const layoutCopy = {
     const btnText = copyBtn.querySelector(".btn-text") as HTMLElement;
 
     const originalText = btnText.textContent;
-    const successText = copyBtn.getAttribute("data-email") ? 
-      (document.documentElement.lang === "es" ? "¡Copiado!" : document.documentElement.lang === "fr" ? "Copié !" : "Copied!") 
-      : "Copied!";
+    const successText = copyBtn.getAttribute("data-copied-label") || "Copied!";
 
     copyBtn.addEventListener("click", async () => {
       try {

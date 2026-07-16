@@ -1,22 +1,24 @@
-import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import tailwindcss from '@tailwindcss/vite';
-import sitemap from '@astrojs/sitemap';
+import { defineConfig } from "astro/config";
+import react from "@astrojs/react";
+import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
 
-const indexablePagePattern = /^\/(?:en|es|fr)\/(?:policy\/|support\/)?$/;
+const indexablePagePattern = /^\/(?:en|es|fr|de|it)\/(?:policy\/|support\/)?$/;
 
 export default defineConfig({
-  site: 'https://summa.fit',
+  site: "https://summa.fit",
   integrations: [
     react(),
     sitemap({
       filter: (page) => indexablePagePattern.test(new URL(page).pathname),
       i18n: {
-        defaultLocale: 'en',
+        defaultLocale: "en",
         locales: {
-          en: 'en',
-          es: 'es',
-          fr: 'fr',
+          en: "en",
+          es: "es",
+          fr: "fr",
+          de: "de",
+          it: "it",
         },
       },
       namespaces: {
@@ -28,8 +30,8 @@ export default defineConfig({
     }),
   ],
   i18n: {
-    locales: ['en', 'es', 'fr'],
-    defaultLocale: 'en',
+    locales: ["en", "es", "fr", "de", "it"],
+    defaultLocale: "en",
     routing: {
       prefixDefaultLocale: true,
       // Keep the hand-authored zero-delay fallback page. Cloudflare handles
@@ -40,7 +42,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      noExternal: ['lucide-astro'],
+      noExternal: ["lucide-astro"],
     },
   },
 });

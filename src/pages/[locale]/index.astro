@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
 import { LandingExperience } from '../../components/LandingExperience';
-import LandingContent from '../../components/LandingContent.astro';
 import { COPY, SUPPORTED_LOCALES, localizedPath, type Locale } from '../../lib/i18n';
 
 import HeroCarousel from '../../components/HeroCarousel';
@@ -13,7 +12,6 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.params;
-const CTA_URL = '#features';
 const copy = COPY[locale as Locale];
 const { content: _content, ...heroCopy } = copy;
 const privacyHref = localizedPath(locale as Locale, "/policy");
@@ -22,11 +20,10 @@ const supportHref = localizedPath(locale as Locale, "/support");
 
 <BaseLayout locale={locale as Locale} copy={copy}>
   <section class="hero" aria-labelledby="hero-title">
-    <LandingExperience installUrl={CTA_URL} privacyHref={privacyHref} supportHref={supportHref} copy={heroCopy} highlights={copy.content.highlights} />
+    <LandingExperience installUrl="" privacyHref={privacyHref} supportHref={supportHref} copy={heroCopy} highlights={copy.content.highlights} />
     <figure class="hero-media reveal-phone" aria-label={copy.heroAlt}>
       <div class="phone-shadow" aria-hidden="true" />
       <HeroCarousel />
     </figure>
   </section>
-  <LandingContent copy={copy} installUrl={CTA_URL} privacyHref={privacyHref} />
 </BaseLayout>

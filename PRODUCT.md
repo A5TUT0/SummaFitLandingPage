@@ -1,6 +1,6 @@
 # SummaFit - Product Specification & Features
 
-SummaFit is an advanced fitness and nutrition tracking application built natively for iOS in Swift and SwiftUI. The application features a premium visual aesthetic matching the iOS 18 LiquidGlass design system, live barcode scanning, Apple Health synchronization, and customizable theme settings.
+SummaFit is an advanced fitness and nutrition tracking application built natively for iOS in Swift and SwiftUI. The application features a premium visual aesthetic matching the iOS 26 Liquid Glass design system, live barcode scanning, Apple Health synchronization, and customizable theme settings.
 
 ---
 
@@ -68,7 +68,7 @@ Comprehensive tracking of logs, streaking consistency, weight fluctuations, and 
 
 ## 6. Technical Stack & Architecture
 
-- **Platform Target**: iOS 18.0+
+- **Platform Target**: iOS 26.0+
 - **Core Technology**: Swift 5.0, SwiftUI, Swift Charts, HealthKit, AVFoundation.
 - **Widget Target (SummaWidget)**: Medium-sized companion widget displaying calorie budget and dynamic progress ring on the Home Screen.
 - **Offline Caching**: Automatically saves recent items, favorite foods, and logs locally, allowing manual logging in low-connectivity areas (e.g., gym basements).

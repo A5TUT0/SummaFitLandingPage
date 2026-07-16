@@ -53,6 +53,11 @@ const canonicalUrl = `${SITE_URL}${canonicalPath}`;
     <meta property="og:site_name" content="SummaFit" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content={OG_LOCALES[locale]} />
+    {
+      SUPPORTED_LOCALES.filter((l) => l !== locale).map((l) => (
+        <meta property="og:locale:alternate" content={OG_LOCALES[l]} />
+      ))
+    }
     <meta property="og:title" content={copy.pageTitle} />
     <meta property="og:description" content={copy.metaDescription} />
     <meta property="og:image" content={OG_IMAGE} />
@@ -66,7 +71,11 @@ const canonicalUrl = `${SITE_URL}${canonicalPath}`;
   </head>
   <body class="legal-page">
     <header class="legal-header">
-      <a class="brand" href={localizedPath(locale)} aria-label="SummaFit home">
+      <a
+        class="brand"
+        href={localizedPath(locale)}
+        aria-label={`SummaFit — ${copy.homeLabel}`}
+      >
         <img src="/logo.svg" alt="" width="28" height="28" />
         <span>SummaFit</span>
       </a>
@@ -80,9 +89,14 @@ const canonicalUrl = `${SITE_URL}${canonicalPath}`;
               <a
                 href={localizedPath(l, path)}
                 hreflang={l}
+                lang={l}
+                aria-label={LOCALE_LABELS[l]}
                 aria-current={l === locale ? "page" : undefined}
               >
-                {LOCALE_LABELS[l]}
+                <span class="legal-lang-name">{LOCALE_LABELS[l]}</span>
+                <span class="legal-lang-code" aria-hidden="true">
+                  {l.toUpperCase()}
+                </span>
               </a>
             ))
           }
@@ -92,5 +106,27 @@ const canonicalUrl = `${SITE_URL}${canonicalPath}`;
     <main class="legal-main">
       <slot />
     </main>
+    <style>
+      .legal-lang-code {
+        display: none;
+      }
+
+      @media (max-width: 520px) {
+        .legal-lang-name {
+          display: none;
+        }
+
+        .legal-lang-code {
+          display: inline;
+        }
+
+        .legal-lang-list a {
+          min-width: 30px;
+          padding-inline: 6px;
+          text-align: center;
+          white-space: nowrap;
+        }
+      }
+    </style>
   </body>
 </html>
