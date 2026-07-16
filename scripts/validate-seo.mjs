@@ -3,6 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SITE_URL = "https://summa.fit";
+const LAST_SIGNIFICANT_UPDATE = "2026-07-16";
 const LOCALES = ["en", "es", "fr", "de", "it"];
 const HREFLANG_VALUES = [...LOCALES, "x-default"];
 const SECTIONS = ["", "policy", "support"];
@@ -325,7 +326,11 @@ const validateXmlEnvelope = (xml, rootElement, label) => {
   );
 };
 
-const validateUrlSet = (xml, label, { validateHreflang = false } = {}) => {
+const validateUrlSet = (
+  xml,
+  label,
+  { validateHreflang = false, validateLastmod = false } = {},
+) => {
   validateXmlEnvelope(xml, "urlset", label);
   const blocks = [...xml.matchAll(/<url\b[^>]*>([\s\S]*?)<\/url>/gi)].map(
     ([, body]) => body,
@@ -357,6 +362,24 @@ const validateUrlSet = (xml, label, { validateHreflang = false } = {}) => {
     `${label}: <loc> URLs do not match the 15 canonical localized pages`,
   );
 
+  if (validateLastmod) {
+    for (const [index, block] of blocks.entries()) {
+      const values = [
+        ...block.matchAll(/<lastmod\b[^>]*>([\s\S]*?)<\/lastmod>/gi),
+      ].map(([, value]) => normalizeText(value));
+      check(
+        values.length === 1,
+        `${label}: URL entry ${index + 1} must contain exactly one <lastmod>`,
+      );
+      if (values.length === 1) {
+        check(
+          values[0].startsWith(LAST_SIGNIFICANT_UPDATE),
+          `${label}: URL entry ${index + 1} lastmod must reflect ${LAST_SIGNIFICANT_UPDATE}`,
+        );
+      }
+    }
+  }
+
   if (!validateHreflang) return;
 
   for (const block of blocks) {
@@ -372,10 +395,14 @@ const validateUrlSet = (xml, label, { validateHreflang = false } = {}) => {
 const validateSitemaps = async () => {
   const direct = await readRequired("sitemap.xml");
   if (direct !== null)
-    validateUrlSet(direct, "sitemap.xml", { validateHreflang: true });
+    validateUrlSet(direct, "sitemap.xml", {
+      validateHreflang: true,
+      validateLastmod: true,
+    });
 
   const generated = await readRequired("sitemap-0.xml");
-  if (generated !== null) validateUrlSet(generated, "sitemap-0.xml");
+  if (generated !== null)
+    validateUrlSet(generated, "sitemap-0.xml", { validateLastmod: true });
 
   const index = await readRequired("sitemap-index.xml");
   if (index !== null) {

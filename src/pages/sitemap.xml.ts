@@ -8,6 +8,7 @@ import {
 
 const SITE_URL = "https://summa.fit";
 const INDEXABLE_SECTIONS = ["", "policy", "support"] as const;
+const LAST_SIGNIFICANT_UPDATE = "2026-07-16";
 
 const absoluteUrl = (locale: Locale, section: string) =>
   `${SITE_URL}${localizedPath(locale, section)}`;
@@ -33,7 +34,7 @@ const renderAlternates = (section: string) => {
 const urls = INDEXABLE_SECTIONS.flatMap((section) =>
   SUPPORTED_LOCALES.map(
     (locale) =>
-      `<url><loc>${escapeXml(absoluteUrl(locale, section))}</loc>${renderAlternates(section)}</url>`,
+      `<url><loc>${escapeXml(absoluteUrl(locale, section))}</loc><lastmod>${LAST_SIGNIFICANT_UPDATE}</lastmod>${renderAlternates(section)}</url>`,
   ),
 ).join("");
 

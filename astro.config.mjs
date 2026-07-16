@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 const indexablePagePattern = /^\/(?:en|es|fr|de|it)\/(?:policy\/|support\/)?$/;
+const lastSignificantUpdate = new Date("2026-07-16T00:00:00.000Z");
 
 export default defineConfig({
   site: "https://summa.fit",
@@ -11,6 +12,9 @@ export default defineConfig({
     react(),
     sitemap({
       filter: (page) => indexablePagePattern.test(new URL(page).pathname),
+      // Keep this date tied to real content/metadata changes. Google only
+      // uses lastmod when it remains consistently accurate.
+      lastmod: lastSignificantUpdate,
       i18n: {
         defaultLocale: "en",
         locales: {
