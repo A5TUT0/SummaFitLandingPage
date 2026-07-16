@@ -19,12 +19,14 @@ const RADIUS_V = (SCREEN_RADIUS / SCREEN_HEIGHT) * 100
 export interface IphoneProps extends HTMLAttributes<HTMLDivElement> {
   src?: string
   videoSrc?: string
+  videoPoster?: string
   children?: React.ReactNode
 }
 
 export function Iphone({
   src,
   videoSrc,
+  videoPoster,
   className,
   style,
   children,
@@ -60,13 +62,17 @@ export function Iphone({
         >
           <video
             className="block size-full object-cover"
-            src={videoSrc}
             autoPlay
             loop
             muted
             playsInline
             preload="auto"
-          />
+            poster={videoPoster}
+            width="408"
+            height="888"
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
         </div>
       )}
 

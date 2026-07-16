@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import sharp from "sharp";
 
 import {
   INDEXNOW_KEY,
@@ -9,6 +10,13 @@ import {
 } from "./indexnow-config.mjs";
 
 const LAST_SIGNIFICANT_UPDATE = "2026-07-16";
+const VIDEO_FILE = "summafit-app-preview.mp4";
+const VIDEO_POSTER_FILE = "summafit-app-preview-poster.jpg";
+const VIDEO_URL = `${SITE_URL}/${VIDEO_FILE}`;
+const VIDEO_POSTER_URL = `${SITE_URL}/${VIDEO_POSTER_FILE}`;
+const VIDEO_ID = `${VIDEO_URL}#video`;
+const VIDEO_UPLOAD_DATE = "2026-07-09T01:44:14+02:00";
+const VIDEO_DURATION = "PT37.667S";
 const LOCALES = ["en", "es", "fr", "de", "it"];
 const HREFLANG_VALUES = [...LOCALES, "x-default"];
 const SECTIONS = ["", "policy", "support"];
@@ -171,7 +179,7 @@ const validateJsonLd = (html, label, locale) => {
   const entities = jsonLdBlocks.flatMap((block) =>
     Array.isArray(block?.["@graph"]) ? block["@graph"] : [block],
   );
-  for (const type of ["MobileApplication", "WebPage"]) {
+  for (const type of ["MobileApplication", "VideoObject", "WebPage"]) {
     check(
       entities.some((entity) => {
         const entityTypes = Array.isArray(entity?.["@type"])
@@ -183,6 +191,12 @@ const validateJsonLd = (html, label, locale) => {
     );
   }
 
+  const visibleText = normalizeText(
+    html
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " "),
+  );
+
   const app = entities.find((entity) => {
     const types = Array.isArray(entity?.["@type"])
       ? entity["@type"]
@@ -190,11 +204,6 @@ const validateJsonLd = (html, label, locale) => {
     return types.includes("MobileApplication");
   });
   if (app) {
-    const visibleText = normalizeText(
-      html
-        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-        .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " "),
-    );
     const description = normalizeText(app.description ?? "");
     const featureList = Array.isArray(app.featureList) ? app.featureList : [];
 
@@ -230,6 +239,82 @@ const validateJsonLd = (html, label, locale) => {
           visibleText.includes(normalizeText(String(feature))),
         ),
       `${label}: every MobileApplication feature must be visible in the hero`,
+    );
+    check(
+      app.subjectOf?.["@id"] === VIDEO_ID,
+      `${label}: MobileApplication must reference the real preview video`,
+    );
+  }
+
+  const video = entities.find((entity) => {
+    const types = Array.isArray(entity?.["@type"])
+      ? entity["@type"]
+      : [entity?.["@type"]];
+    return types.includes("VideoObject");
+  });
+  if (video) {
+    const name = normalizeText(video.name ?? "");
+    const description = normalizeText(video.description ?? "");
+
+    check(video["@id"] === VIDEO_ID, `${label}: VideoObject @id is incorrect`);
+    check(
+      name.length > 0 && visibleText.includes(name),
+      `${label}: VideoObject name must be visible in the hero`,
+    );
+    check(
+      description.length > 0 && visibleText.includes(description),
+      `${label}: VideoObject description must be visible in the hero`,
+    );
+    check(
+      video.thumbnailUrl === VIDEO_POSTER_URL,
+      `${label}: VideoObject must use the real stable poster`,
+    );
+    check(
+      video.contentUrl === VIDEO_URL,
+      `${label}: VideoObject must point to the real MP4 bytes`,
+    );
+    check(
+      video.uploadDate === VIDEO_UPLOAD_DATE,
+      `${label}: VideoObject uploadDate must match the first verified publication`,
+    );
+    check(
+      video.duration === VIDEO_DURATION,
+      `${label}: VideoObject duration must match the probed MP4 duration`,
+    );
+    check(
+      video.inLanguage === "en",
+      `${label}: VideoObject language must match the English UI in the video`,
+    );
+    check(
+      video.about?.["@id"] === `${SITE_URL}/#summafit-app`,
+      `${label}: VideoObject must identify SummaFit as its subject`,
+    );
+    for (const unsupportedClaim of [
+      "aggregateRating",
+      "interactionStatistic",
+      "review",
+    ]) {
+      check(
+        !(unsupportedClaim in video),
+        `${label}: VideoObject must not invent ${unsupportedClaim}`,
+      );
+    }
+  }
+
+  const webpage = entities.find((entity) => {
+    const types = Array.isArray(entity?.["@type"])
+      ? entity["@type"]
+      : [entity?.["@type"]];
+    return types.includes("WebPage");
+  });
+  if (webpage) {
+    check(
+      webpage.video?.["@id"] === VIDEO_ID,
+      `${label}: WebPage must reference VideoObject as secondary video`,
+    );
+    check(
+      webpage.mainEntity?.["@id"] === `${SITE_URL}/#summafit-app`,
+      `${label}: the app, not the complementary video, must remain mainEntity`,
     );
   }
 };
@@ -342,6 +427,65 @@ const validatePage = async (locale, section) => {
 
   if (section === "") {
     validateJsonLd(html, label, locale);
+
+    const videoTags = findTags(html, "video");
+    check(
+      videoTags.length === 1,
+      `${label}: expected exactly one hero video, found ${videoTags.length}`,
+    );
+    if (videoTags.length === 1) {
+      check(
+        videoTags[0].attributes.poster === `/${VIDEO_POSTER_FILE}`,
+        `${label}: hero video must use the real poster`,
+      );
+      check(
+        videoTags[0].attributes.width === "408" &&
+          videoTags[0].attributes.height === "888",
+        `${label}: hero video dimensions must match the source`,
+      );
+    }
+
+    const sourceTags = findTags(html, "source");
+    const videoSources = sourceTags.filter(
+      ({ attributes }) => attributes.src === `/${VIDEO_FILE}`,
+    );
+    check(
+      videoSources.length === 1 &&
+        videoSources[0].attributes.type === "video/mp4",
+      `${label}: hero must expose one typed MP4 source`,
+    );
+
+    const posterPreloads = linkTags.filter(
+      ({ attributes }) =>
+        hasRel(attributes, "preload") &&
+        attributes.as === "image" &&
+        attributes.href === `/${VIDEO_POSTER_FILE}` &&
+        attributes.fetchpriority === "high",
+    );
+    check(
+      posterPreloads.length === 1,
+      `${label}: hero poster must be preloaded exactly once`,
+    );
+
+    const expectedVideoMeta = new Map([
+      ["og:video", VIDEO_URL],
+      ["og:video:secure_url", VIDEO_URL],
+      ["og:video:type", "video/mp4"],
+      ["og:video:width", "408"],
+      ["og:video:height", "888"],
+      ["og:video:image", VIDEO_POSTER_URL],
+    ]);
+    for (const [property, expectedContent] of expectedVideoMeta) {
+      const matches = metaTags.filter(
+        ({ attributes }) => attributes.property === property,
+      );
+      check(
+        matches.length === 1 &&
+          matches[0].attributes.content === expectedContent,
+        `${label}: ${property} must describe the real hero video`,
+      );
+    }
+
     check(
       /<section\b[^>]*class=["'][^"']*\bhero\b[^"']*["']/i.test(html),
       `${label}: landing must render the hero`,
@@ -459,15 +603,25 @@ const validateUrlSet = (
 
 const validateSitemaps = async () => {
   const direct = await readRequired("sitemap.xml");
-  if (direct !== null)
+  if (direct !== null) {
     validateUrlSet(direct, "sitemap.xml", {
       validateHreflang: true,
       validateLastmod: true,
     });
+    check(
+      !/<video:video\b/i.test(direct),
+      "sitemap.xml: complementary product demo must not be declared as a watch-page video",
+    );
+  }
 
   const generated = await readRequired("sitemap-0.xml");
-  if (generated !== null)
+  if (generated !== null) {
     validateUrlSet(generated, "sitemap-0.xml", { validateLastmod: true });
+    check(
+      !/<video:video\b/i.test(generated),
+      "sitemap-0.xml: complementary product demo must not be declared as a watch-page video",
+    );
+  }
 
   const index = await readRequired("sitemap-index.xml");
   if (index !== null) {
@@ -483,6 +637,42 @@ const validateSitemaps = async () => {
         `sitemap-index.xml: sitemap location must be ${SITE_URL}/sitemap-0.xml`,
       );
     }
+  }
+};
+
+const validateVideoAssets = async () => {
+  try {
+    const poster = await readFile(resolve(DIST_DIR, VIDEO_POSTER_FILE));
+    const metadata = await sharp(poster).metadata();
+    check(metadata.format === "jpeg", `${VIDEO_POSTER_FILE}: must be JPEG`);
+    check(
+      metadata.width === 408 && metadata.height === 888,
+      `${VIDEO_POSTER_FILE}: dimensions must be 408x888`,
+    );
+    check(
+      metadata.isProgressive === true,
+      `${VIDEO_POSTER_FILE}: JPEG must be progressive`,
+    );
+    check(
+      poster.byteLength <= 100_000,
+      `${VIDEO_POSTER_FILE}: must stay at or below 100 KB`,
+    );
+  } catch (error) {
+    check(
+      false,
+      `${VIDEO_POSTER_FILE}: missing or invalid (${error.message})`,
+    );
+  }
+
+  try {
+    const video = await readFile(resolve(DIST_DIR, VIDEO_FILE));
+    check(video.byteLength > 0, `${VIDEO_FILE}: must not be empty`);
+    check(
+      video.byteLength <= 5_000_000,
+      `${VIDEO_FILE}: must stay at or below 5 MB`,
+    );
+  } catch (error) {
+    check(false, `${VIDEO_FILE}: missing or unreadable (${error.message})`);
   }
 };
 
@@ -622,6 +812,7 @@ for (const locale of LOCALES) {
 }
 
 await validateSitemaps();
+await validateVideoAssets();
 await validateIndexNowKey();
 await validateRobots();
 await validate404();

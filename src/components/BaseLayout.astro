@@ -17,12 +17,17 @@ const { locale, copy } = Astro.props;
 
 const SITE_URL = "https://summa.fit";
 const OG_IMAGE = `${SITE_URL}/newog-image.png`;
+const VIDEO_URL = `${SITE_URL}/summafit-app-preview.mp4`;
+const VIDEO_POSTER = `${SITE_URL}/summafit-app-preview-poster.jpg`;
+const VIDEO_UPLOAD_DATE = "2026-07-09T01:44:14+02:00";
+const VIDEO_DURATION = "PT37.667S";
 const canonicalPath = localizedPath(locale);
 const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 const organizationId = `${SITE_URL}/#organization`;
 const websiteId = `${SITE_URL}/#website`;
 const appId = `${SITE_URL}/#summafit-app`;
 const webpageId = `${canonicalUrl}#webpage`;
+const videoId = `${VIDEO_URL}#video`;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -57,6 +62,20 @@ const structuredData = {
       inLanguage: SUPPORTED_LOCALES,
       publisher: { "@id": organizationId },
       featureList: copy.content.highlights,
+      subjectOf: { "@id": videoId },
+    },
+    {
+      "@type": "VideoObject",
+      "@id": videoId,
+      name: copy.title,
+      description: copy.subtitle,
+      thumbnailUrl: VIDEO_POSTER,
+      uploadDate: VIDEO_UPLOAD_DATE,
+      duration: VIDEO_DURATION,
+      contentUrl: VIDEO_URL,
+      inLanguage: "en",
+      about: { "@id": appId },
+      publisher: { "@id": organizationId },
     },
     {
       "@type": "WebPage",
@@ -68,6 +87,7 @@ const structuredData = {
       isPartOf: { "@id": websiteId },
       about: { "@id": appId },
       mainEntity: { "@id": appId },
+      video: { "@id": videoId },
     },
   ],
 };
@@ -94,6 +114,12 @@ const structuredData = {
 
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      as="image"
+      href="/summafit-app-preview-poster.jpg"
+      fetchpriority="high"
+    />
 
     <link
       rel="alternate"
@@ -128,6 +154,12 @@ const structuredData = {
     <meta property="og:image:width" content="1731" />
     <meta property="og:image:height" content="909" />
     <meta property="og:image:alt" content={copy.heroAlt} />
+    <meta property="og:video" content={VIDEO_URL} />
+    <meta property="og:video:secure_url" content={VIDEO_URL} />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="408" />
+    <meta property="og:video:height" content="888" />
+    <meta property="og:video:image" content={VIDEO_POSTER} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={copy.seoTitle} />

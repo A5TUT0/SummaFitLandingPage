@@ -6,10 +6,12 @@ import {
   SITE_URL,
 } from "./indexnow-config.mjs";
 
+// Run manually after a production deploy. Optional positional paths limit the
+// notification to canonical URLs that changed, for example: /en/ /es/.
 const allowedArguments = new Set(["--dry-run"]);
 const argumentsList = process.argv.slice(2);
 const unexpectedArguments = argumentsList.filter(
-  (argument) => !allowedArguments.has(argument),
+  (argument) => argument.startsWith("--") && !allowedArguments.has(argument),
 );
 
 if (unexpectedArguments.length > 0) {
@@ -17,6 +19,9 @@ if (unexpectedArguments.length > 0) {
 }
 
 const dryRun = argumentsList.includes("--dry-run");
+const requestedPaths = argumentsList.filter(
+  (argument) => !argument.startsWith("--"),
+);
 const expectedHost = new URL(SITE_URL).hostname;
 const requestTimeoutMs = 20_000;
 
@@ -64,17 +69,43 @@ const sitemapXml = await sitemapResponse.text();
 const discoveredUrls = [
   ...sitemapXml.matchAll(/<loc\b[^>]*>([\s\S]*?)<\/loc>/gi),
 ].map(([, value]) => decodeXmlText(value.trim()));
-const urlList = [...new Set(discoveredUrls)];
+const sitemapUrls = [...new Set(discoveredUrls)];
 
-if (urlList.length === 0 || urlList.length > 10_000) {
+if (sitemapUrls.length === 0 || sitemapUrls.length > 10_000) {
   throw new Error(
-    `The live sitemap produced ${urlList.length} unique URLs; expected between 1 and 10,000.`,
+    `The live sitemap produced ${sitemapUrls.length} unique URLs; expected between 1 and 10,000.`,
   );
 }
 
-if (urlList.length !== discoveredUrls.length) {
+if (sitemapUrls.length !== discoveredUrls.length) {
   throw new Error("The live sitemap contains duplicate <loc> URLs.");
 }
+
+if (
+  requestedPaths.some(
+    (path) => !path.startsWith("/") || path.startsWith("//"),
+  )
+) {
+  throw new Error("IndexNow positional values must be root-relative paths.");
+}
+
+const requestedUrls = requestedPaths.map(
+  (path) => new URL(path, `${SITE_URL}/`).href,
+);
+if (new Set(requestedUrls).size !== requestedUrls.length) {
+  throw new Error("IndexNow positional paths must not contain duplicates.");
+}
+
+const sitemapUrlSet = new Set(sitemapUrls);
+for (const requestedUrl of requestedUrls) {
+  if (!sitemapUrlSet.has(requestedUrl)) {
+    throw new Error(
+      `Refusing to submit a URL that is absent from the live sitemap: ${requestedUrl}`,
+    );
+  }
+}
+
+const urlList = requestedUrls.length > 0 ? requestedUrls : sitemapUrls;
 
 for (const value of urlList) {
   const url = new URL(value);
