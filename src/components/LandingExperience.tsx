@@ -3,7 +3,6 @@ import type { MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import { ArrowDown, Check, Copy, Download, QrCode } from "lucide-react";
 import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
-import MetallicPaint from "@/components/ui/reactbits/MetallicPaint/MetallicPaint";
 import { type LandingHeroCopy } from "../lib/i18n";
 
 const INSTALL_QR_SRC = "/install-qr.svg";
@@ -285,33 +284,6 @@ export function LandingExperience({
   return (
     <>
       <div className="hero-copy">
-        <div className="hero-brand reveal-soft" aria-label="SummaFit">
-          <span className="metallic-logo" aria-hidden="true">
-            <img className="metallic-logo-fallback" src="/logo.svg" alt="" />
-            <span className="metallic-logo-effect">
-              <MetallicPaint
-                imageSrc="/logo.svg"
-                seed={19}
-                scale={3.2}
-                refraction={0.012}
-                blur={0.018}
-                liquid={0.72}
-                speed={0.22}
-                brightness={1.65}
-                contrast={0.78}
-                lightColor="#ffffff"
-                darkColor="#59616f"
-                tintColor="#ffb170"
-                waveAmplitude={0.75}
-                noiseScale={0.42}
-                chromaticSpread={1.25}
-                distortion={0.35}
-                contour={0.35}
-              />
-            </span>
-          </span>
-          <span>SummaFit</span>
-        </div>
         <p className="eyebrow reveal-soft">{copy.eyebrow}</p>
         <h1 id="hero-title" className="title reveal-soft">
           <DiaTextReveal

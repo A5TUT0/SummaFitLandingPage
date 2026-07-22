@@ -92,31 +92,6 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-.dot-grid-background {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0.78;
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    rgba(0, 0, 0, 0.82) 70%,
-    transparent 100%
-  );
-}
-
-.dot-grid-background > astro-island {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.dot-grid-background .dot-grid {
-  padding: 0;
-}
-
 .ambient-field {
   position: fixed;
   inset: 0;
@@ -219,43 +194,6 @@ a {
   width: 30px;
   height: 30px;
   filter: drop-shadow(0 8px 16px rgba(255, 115, 0, 0.22));
-}
-
-.hero-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  width: fit-content;
-  margin-bottom: 22px;
-  color: var(--summa-text);
-  font-size: 17px;
-  font-weight: 760;
-  letter-spacing: -0.02em;
-}
-
-.metallic-logo {
-  position: relative;
-  display: inline-grid;
-  width: 46px;
-  height: 46px;
-  place-items: center;
-  filter: drop-shadow(0 10px 20px rgba(255, 115, 0, 0.18));
-}
-
-.metallic-logo-fallback,
-.metallic-logo-effect {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.metallic-logo-fallback {
-  object-fit: contain;
-}
-
-.metallic-logo-effect {
-  display: block;
 }
 
 .hero {
