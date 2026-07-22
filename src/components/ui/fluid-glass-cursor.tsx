@@ -30,10 +30,10 @@ const fragmentShader = /* glsl */ `
 
   void main() {
     vec3 color = vec3(0.961, 0.969, 0.980);
-    color = mix(color, vec3(0.996, 0.459, 0.000), glow(vec2(0.06, 0.92), 0.64) * 0.88);
-    color = mix(color, vec3(0.741, 0.408, 0.996), glow(vec2(0.94, 0.90), 0.62) * 0.68);
-    color = mix(color, vec3(0.306, 0.871, 0.400), glow(vec2(0.08, 0.06), 0.62) * 0.60);
-    color = mix(color, vec3(0.196, 0.690, 0.996), glow(vec2(0.94, 0.08), 0.66) * 0.64);
+    color = mix(color, vec3(0.996, 0.459, 0.000), glow(vec2(0.06, 0.92), 0.64) * 0.36);
+    color = mix(color, vec3(0.741, 0.408, 0.996), glow(vec2(0.94, 0.90), 0.62) * 0.26);
+    color = mix(color, vec3(0.306, 0.871, 0.400), glow(vec2(0.08, 0.06), 0.62) * 0.22);
+    color = mix(color, vec3(0.196, 0.690, 0.996), glow(vec2(0.94, 0.08), 0.66) * 0.24);
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -71,15 +71,12 @@ function FluidLens({ pointer }: { pointer: React.RefObject<PointerPosition> }) {
 
     easing.damp3(lens.current.position, [targetX, targetY, 15], 0.13, delta);
 
-    const previousColor = state.gl.getClearColor(new THREE.Color());
-    const previousAlpha = state.gl.getClearAlpha();
-
     state.gl.setRenderTarget(buffer);
     state.gl.setClearColor(0xf5f7fa, 1);
     state.gl.clear();
     state.gl.render(backgroundScene, state.camera);
     state.gl.setRenderTarget(null);
-    state.gl.setClearColor(previousColor, previousAlpha);
+    state.gl.setClearColor(0x000000, 0);
   });
 
   return (
@@ -87,21 +84,25 @@ function FluidLens({ pointer }: { pointer: React.RefObject<PointerPosition> }) {
       <Palette scene={backgroundScene} />
       <mesh
         ref={lens}
-        scale={Math.min(0.18, viewport.width * 0.026)}
+        scale={Math.min(0.11, viewport.width * 0.016)}
         rotation-x={Math.PI / 2}
         geometry={(nodes.Cylinder as THREE.Mesh | undefined)?.geometry}
       >
         <MeshTransmissionMaterial
           buffer={buffer.texture}
           transmission={1}
-          roughness={0.03}
+          transparent
+          opacity={0.46}
+          depthWrite={false}
+          roughness={0.04}
           thickness={5}
           ior={1.15}
           anisotropy={0.01}
-          chromaticAberration={0.12}
-          clearcoat={1}
+          chromaticAberration={0.1}
+          clearcoat={0.8}
+          color="#ffffff"
           attenuationColor="#ffffff"
-          attenuationDistance={0.3}
+          attenuationDistance={1.2}
         />
       </mesh>
     </>
@@ -157,6 +158,7 @@ export function FluidGlassCursor() {
         camera={{ position: [0, 0, 20], fov: 15 }}
         dpr={[1, 1.5]}
         gl={{ alpha: true, antialias: true }}
+        onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <Suspense fallback={null}>
           <FluidLens pointer={pointer} />
