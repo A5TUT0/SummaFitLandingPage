@@ -4,7 +4,7 @@ import { LandingExperience } from '../../components/LandingExperience';
 import { COPY, SUPPORTED_LOCALES, localizedPath, type Locale } from '../../lib/i18n';
 
 import HeroCarousel from '../../components/HeroCarousel';
-import { FluidGlassCursor } from '../../components/ui/fluid-glass-cursor';
+import DotGrid from '../../components/ui/reactbits/DotGrid/DotGrid';
 
 export function getStaticPaths() {
   return SUPPORTED_LOCALES.map((locale) => ({
@@ -20,7 +20,20 @@ const supportHref = localizedPath(locale as Locale, "/support");
 ---
 
 <BaseLayout locale={locale as Locale} copy={copy}>
-  <FluidGlassCursor client:only="react" />
+  <div class="dot-grid-background" aria-hidden="true">
+    <DotGrid
+      client:only="react"
+      dotSize={2}
+      gap={26}
+      baseColor="#D7DCE5"
+      activeColor="#FF7300"
+      proximity={150}
+      shockRadius={220}
+      shockStrength={3}
+      resistance={900}
+      returnDuration={1.2}
+    />
+  </div>
   <section class="hero" aria-labelledby="hero-title">
     <LandingExperience installUrl="" privacyHref={privacyHref} supportHref={supportHref} copy={heroCopy} highlights={copy.content.highlights} />
     <figure class="hero-media reveal-phone" aria-label={copy.heroAlt}>
