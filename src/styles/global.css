@@ -92,6 +92,28 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+.fluid-glass-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  width: 100vw;
+  height: 100dvh;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.fluid-glass-cursor[data-visible="true"] {
+  opacity: 1;
+}
+
+.fluid-glass-cursor canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+}
+
 .ambient-field {
   position: fixed;
   inset: 0;
