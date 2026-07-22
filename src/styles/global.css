@@ -92,17 +92,26 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-.fluid-glass-demo {
-  width: min(100%, 1180px);
-  margin: 0 auto 64px;
-  overflow: hidden;
-  border-radius: 32px;
+.fluid-glass-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  width: 100vw;
+  height: 100dvh;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
 }
 
-.fluid-glass-demo > astro-island {
+.fluid-glass-cursor[data-visible="true"] {
+  opacity: 1;
+}
+
+.fluid-glass-cursor canvas {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
 }
 
 .ambient-field {
