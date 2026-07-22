@@ -4,7 +4,7 @@ import { LandingExperience } from '../../components/LandingExperience';
 import { COPY, SUPPORTED_LOCALES, localizedPath, type Locale } from '../../lib/i18n';
 
 import HeroCarousel from '../../components/HeroCarousel';
-import { FluidGlassCursor } from '../../components/ui/fluid-glass-cursor';
+import FluidGlass from '../../components/FluidGlass/FluidGlass.jsx';
 
 export function getStaticPaths() {
   return SUPPORTED_LOCALES.map((locale) => ({
@@ -20,7 +20,6 @@ const supportHref = localizedPath(locale as Locale, "/support");
 ---
 
 <BaseLayout locale={locale as Locale} copy={copy}>
-  <FluidGlassCursor client:only="react" />
   <section class="hero" aria-labelledby="hero-title">
     <LandingExperience installUrl="" privacyHref={privacyHref} supportHref={supportHref} copy={heroCopy} highlights={copy.content.highlights} />
     <figure class="hero-media reveal-phone" aria-label={copy.heroAlt}>
@@ -28,4 +27,19 @@ const supportHref = localizedPath(locale as Locale, "/support");
       <HeroCarousel />
     </figure>
   </section>
+  <div class="fluid-glass-demo" style={{ height: '600px', position: 'relative' }}>
+    <FluidGlass
+      client:only="react"
+      mode="lens"
+      lensProps={{
+        scale: 0.25,
+        ior: 1.15,
+        thickness: 5,
+        chromaticAberration: 0.1,
+        anisotropy: 0.01,
+      }}
+      barProps={{}}
+      cubeProps={{}}
+    />
+  </div>
 </BaseLayout>
