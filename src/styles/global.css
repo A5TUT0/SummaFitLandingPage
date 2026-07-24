@@ -222,18 +222,27 @@ a {
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
-  margin: 0 0 18px;
-  padding: 0 10px;
-  border: 1px solid rgba(255, 115, 0, 0.18);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.62);
-  color: var(--summa-orange);
+  gap: 8px;
+  min-height: 32px;
+  margin: 0 0 20px;
+  padding: 0 14px;
+  border: 1px solid rgba(254, 117, 0, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--summa-text);
   font-size: 13px;
-  font-weight: 760;
-  letter-spacing: 0;
-  box-shadow: 0 12px 30px rgba(255, 115, 0, 0.08);
-  backdrop-filter: blur(18px);
+  font-weight: 720;
+  letter-spacing: -0.01em;
+  box-shadow: 0 8px 24px rgba(254, 117, 0, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+.eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FE7500 0%, #BD68FE 100%);
+  box-shadow: 0 0 10px rgba(254, 117, 0, 0.6);
 }
 
 .title {
@@ -603,10 +612,9 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  max-width: 560px;
-  margin: 24px 0 0;
+  max-width: 580px;
+  margin: 22px 0 0;
   padding: 0;
-  list-style: none;
 }
 
 .hero-highlight {
@@ -614,19 +622,26 @@ a {
   align-items: center;
   gap: 8px;
   min-height: 36px;
-  padding: 0 12px;
-  border: 1px solid rgba(13, 15, 22, 0.07);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.68);
-  color: var(--summa-text-sub);
-  font-size: 13px;
-  font-weight: 740;
-  letter-spacing: 0;
-  box-shadow: 0 14px 34px rgba(13, 15, 22, 0.055);
-  backdrop-filter: blur(18px);
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--summa-text);
+  font-size: 13.5px;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+  box-shadow: 0 6px 18px rgba(13, 15, 22, 0.04);
+  backdrop-filter: blur(16px);
+  transition: all 0.25s ease;
 }
 
-.hero-highlight svg {
+.hero-highlight:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(254, 117, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+.highlight-icon {
   flex: 0 0 auto;
   color: var(--summa-orange);
 }

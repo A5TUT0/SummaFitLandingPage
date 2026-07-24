@@ -284,7 +284,10 @@ export function LandingExperience({
   return (
     <>
       <div className="hero-copy">
-        <p className="eyebrow reveal-soft">{copy.eyebrow}</p>
+        <div className="eyebrow reveal-soft">
+          <span className="eyebrow-dot" aria-hidden="true"></span>
+          <span>{copy.eyebrow}</span>
+        </div>
         <h1 id="hero-title" className="title reveal-soft">
           <DiaTextReveal
             text={copy.title}
@@ -297,14 +300,14 @@ export function LandingExperience({
           />
         </h1>
         <p className="subtitle reveal-soft">{copy.subtitle}</p>
-        <ul className="hero-highlights reveal-soft" aria-label={copy.eyebrow}>
+        <div className="hero-highlights reveal-soft" aria-label={copy.eyebrow}>
           {highlights.map((highlight) => (
-            <li className="hero-highlight" key={highlight}>
-              <Check aria-hidden="true" size={15} strokeWidth={2.6} />
+            <div className="hero-highlight" key={highlight}>
+              <Check aria-hidden="true" size={14} strokeWidth={2.5} className="highlight-icon" />
               <span>{highlight}</span>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
         <div className="actions reveal-soft">
           {hasCta ? (
             <a

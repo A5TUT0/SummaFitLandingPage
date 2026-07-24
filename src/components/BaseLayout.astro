@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import BeamsBackground from "./BeamsBackground";
 import {
   type Locale,
   type LandingCopy,
@@ -175,6 +176,7 @@ const structuredData = {
     <title>{copy.seoTitle}</title>
   </head>
   <body>
+    <BeamsBackground client:only="react" />
     <div class="ambient-field" aria-hidden="true">
       <span class="ambient-glow glow-orange"></span>
       <span class="ambient-glow glow-violet"></span>
