@@ -581,13 +581,13 @@ a {
 
 .availability {
   margin: 0;
-  color: var(--summa-text-muted);
+  color: var(--summa-text-sub);
   font-size: 14px;
   font-weight: 680;
 }
 
 .privacy-link {
-  color: var(--summa-text-muted);
+  color: var(--summa-text-sub);
   font-size: 14px;
   font-weight: 720;
   text-decoration: underline;
