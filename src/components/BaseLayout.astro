@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Aurora from "./Aurora";
 import {
   type Locale,
   type LandingCopy,
@@ -61,7 +62,6 @@ const structuredData = {
       description: copy.subtitle,
       inLanguage: SUPPORTED_LOCALES,
       publisher: { "@id": organizationId },
-      featureList: copy.content.highlights,
       subjectOf: { "@id": videoId },
     },
     {
@@ -97,6 +97,23 @@ const structuredData = {
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      document.documentElement.classList.add("is-loading");
+      window.setTimeout(() => {
+        document.documentElement.classList.remove("is-loading");
+      }, 8000);
+    </script>
+    <style is:inline>
+      html.is-loading {
+        background: #ffffff;
+      }
+
+      html.is-loading body {
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={copy.seoDescription} />
     <meta
@@ -176,10 +193,13 @@ const structuredData = {
   </head>
   <body>
     <div class="ambient-field" aria-hidden="true">
-      <span class="ambient-glow glow-orange"></span>
-      <span class="ambient-glow glow-violet"></span>
-      <span class="ambient-glow glow-green"></span>
-      <span class="ambient-glow glow-blue"></span>
+      <Aurora
+        colorStops={["#4EDE66", "#BD68FE", "#32B0FE"]}
+        blend={0.5}
+        amplitude={1}
+        speed={1}
+        client:load
+      />
     </div>
 
     <main id="main-content" class="page-shell">
@@ -250,49 +270,6 @@ const structuredData = {
                 "<0.14",
               );
 
-            gsap.to(".ambient-glow", {
-              scale: 1.09,
-              opacity: 0.78,
-              duration: 5.8,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-              stagger: { each: 0.45, from: "center" },
-            });
-
-            gsap.to(".glow-orange", {
-              x: 16,
-              y: 10,
-              duration: 7.4,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-            });
-            gsap.to(".glow-violet", {
-              x: -14,
-              y: 12,
-              duration: 8.2,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-            });
-            gsap.to(".glow-green", {
-              x: 12,
-              y: -14,
-              duration: 8.8,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-            });
-            gsap.to(".glow-blue", {
-              x: -16,
-              y: -10,
-              duration: 7.9,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-            });
-
             gsap.to(".hero-product-image", {
               y: isDesktop ? -6 : -4,
               rotation: isDesktop ? 0.2 : 0,
@@ -342,19 +319,71 @@ const structuredData = {
         );
       };
 
-      const queueHeroAnimations = () =>
-        window.setTimeout(startHeroAnimations, 120);
+      const waitForWindowLoad = () =>
+        document.readyState === "complete"
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => {
+              window.addEventListener("load", () => resolve(), { once: true });
+            });
 
-      const landingIsland = document.querySelector(
-        'astro-island[component-export="LandingExperience"]',
-      );
-      if (landingIsland?.hasAttribute("ssr")) {
-        landingIsland.addEventListener("astro:hydrate", queueHeroAnimations, {
-          once: true,
+      const waitForReadySignal = (
+        datasetKey: "auroraReady" | "landingReady",
+        eventName: "summafit:aurora-ready" | "summafit:landing-ready",
+      ) =>
+        document.documentElement.dataset[datasetKey] === "true"
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => {
+              window.addEventListener(eventName, () => resolve(), {
+                once: true,
+              });
+            });
+
+      const waitForVideo = () => {
+        const video = document.querySelector<HTMLVideoElement>(
+          ".hero-product-image video",
+        );
+
+        if (!video || video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+          return Promise.resolve();
+        }
+
+        return new Promise<void>((resolve) => {
+          const finish = () => {
+            video.removeEventListener("loadeddata", finish);
+            video.removeEventListener("error", finish);
+            resolve();
+          };
+
+          video.addEventListener("loadeddata", finish, { once: true });
+          video.addEventListener("error", finish, { once: true });
         });
-      } else {
-        queueHeroAnimations();
-      }
+      };
+
+      const fontsReady =
+        "fonts" in document ? document.fonts.ready.catch(() => undefined) : null;
+
+      const allCriticalContentReady = Promise.all([
+        waitForWindowLoad(),
+        waitForReadySignal("auroraReady", "summafit:aurora-ready"),
+        waitForReadySignal("landingReady", "summafit:landing-ready"),
+        waitForVideo(),
+        fontsReady,
+      ]);
+
+      const safetyTimeout = new Promise<void>((resolve) => {
+        window.setTimeout(resolve, 6500);
+      });
+
+      void Promise.race([allCriticalContentReady, safetyTimeout]).then(() => {
+        startHeroAnimations();
+
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            document.documentElement.classList.remove("is-loading");
+            document.documentElement.classList.add("is-ready");
+          });
+        });
+      });
     </script>
   </body>
 </html>

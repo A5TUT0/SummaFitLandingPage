@@ -1,7 +1,16 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { createPortal } from "react-dom";
-import { ArrowDown, Check, Copy, Download, QrCode } from "lucide-react";
+import {
+  ArrowDown,
+  Check,
+  Copy,
+  Download,
+  Mute,
+  Qr,
+  VolumeHigh,
+} from "reicon-react";
+import { bind, play, setEnabled } from "cuelume";
 import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
 import { type LandingHeroCopy } from "../lib/i18n";
 
@@ -34,18 +43,17 @@ export function LandingExperience({
   privacyHref,
   supportHref,
   copy,
-  highlights,
 }: {
   installUrl: string;
   privacyHref: string;
   supportHref: string;
   copy: LandingHeroCopy;
-  highlights: string[];
 }) {
   const hasCta = Boolean(installUrl);
   const isAppStoreLink = installUrl.startsWith("https://apps.apple.com/");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [copyState, setCopyState] = useState<CopyState>("idle");
+  const [soundEnabled, setSoundEnabledState] = useState(true);
   const dialogTitleId = useId();
   const dialogDescriptionId = useId();
   const copyResetTimeout = useRef<number | undefined>(undefined);
@@ -55,6 +63,7 @@ export function LandingExperience({
 
   const closeDialog = useCallback(() => {
     if (isClosingRef.current) return;
+    play("droplet");
 
     const backdrop = dialogBackdropRef.current;
     const panel = dialogPanelRef.current;
@@ -93,6 +102,22 @@ export function LandingExperience({
         isClosingRef.current = false;
         setIsDialogOpen(false);
       });
+  }, []);
+
+  useEffect(() => {
+    bind();
+    let enabled = true;
+
+    try {
+      enabled = window.localStorage.getItem("summafit-sounds") !== "off";
+    } catch {
+      // Storage may be unavailable in hardened browser contexts.
+    }
+
+    setSoundEnabledState(enabled);
+    setEnabled(enabled);
+    document.documentElement.dataset.landingReady = "true";
+    window.dispatchEvent(new Event("summafit:landing-ready"));
   }, []);
 
   useEffect(() => {
@@ -194,20 +219,45 @@ export function LandingExperience({
     event.preventDefault();
     setCopyState("idle");
     setIsDialogOpen(true);
+    play("bloom");
   };
 
   const handleCopyLink = async () => {
     try {
       await copyText(installUrl);
       setCopyState("copied");
+      play("success");
     } catch {
       setCopyState("error");
+      play("error");
     }
 
     window.clearTimeout(copyResetTimeout.current);
     copyResetTimeout.current = window.setTimeout(() => {
       setCopyState("idle");
     }, 1800);
+  };
+
+  const handleSoundToggle = () => {
+    const nextEnabled = !soundEnabled;
+
+    if (nextEnabled) {
+      setEnabled(true);
+      play("toggle");
+    } else {
+      play("toggle");
+      setEnabled(false);
+    }
+
+    setSoundEnabledState(nextEnabled);
+    try {
+      window.localStorage.setItem(
+        "summafit-sounds",
+        nextEnabled ? "on" : "off",
+      );
+    } catch {
+      // The control still works for the current page when storage is blocked.
+    }
   };
 
   const installDialog =
@@ -233,7 +283,7 @@ export function LandingExperience({
           <div className="install-dialog-grid">
             <div className="install-dialog-message">
               <p className="install-dialog-eyebrow install-dialog-action">
-                <QrCode aria-hidden="true" size={16} strokeWidth={2.4} />
+                <Qr aria-hidden="true" size={16} />
                 <span>{copy.qrDialogEyebrow}</span>
               </p>
               <h2 id={dialogTitleId}>{copy.qrDialogTitle}</h2>
@@ -260,11 +310,14 @@ export function LandingExperience({
               className="install-copy-button"
               type="button"
               onClick={handleCopyLink}
+              data-cuelume-hover="tick"
+              data-cuelume-press
+              data-cuelume-release
             >
               {copyState === "copied" ? (
-                <Check aria-hidden="true" size={17} strokeWidth={2.5} />
+                <Check aria-hidden="true" size={17} />
               ) : (
-                <Copy aria-hidden="true" size={17} strokeWidth={2.4} />
+                <Copy aria-hidden="true" size={17} />
               )}
               <span>
                 {copyState === "copied"
@@ -283,8 +336,26 @@ export function LandingExperience({
 
   return (
     <>
+      <button
+        className="sound-toggle"
+        type="button"
+        onClick={handleSoundToggle}
+        aria-pressed={soundEnabled}
+        aria-label={
+          soundEnabled
+            ? "Mute interaction sounds"
+            : "Enable interaction sounds"
+        }
+        title={soundEnabled ? "Mute sounds" : "Enable sounds"}
+      >
+        {soundEnabled ? (
+          <VolumeHigh aria-hidden="true" size={19} />
+        ) : (
+          <Mute aria-hidden="true" size={19} />
+        )}
+      </button>
+
       <div className="hero-copy">
-        <p className="eyebrow reveal-soft">{copy.eyebrow}</p>
         <h1 id="hero-title" className="title reveal-soft">
           <DiaTextReveal
             text={copy.title}
@@ -297,14 +368,6 @@ export function LandingExperience({
           />
         </h1>
         <p className="subtitle reveal-soft">{copy.subtitle}</p>
-        <ul className="hero-highlights reveal-soft" aria-label={copy.eyebrow}>
-          {highlights.map((highlight) => (
-            <li className="hero-highlight" key={highlight}>
-              <Check aria-hidden="true" size={15} strokeWidth={2.6} />
-              <span>{highlight}</span>
-            </li>
-          ))}
-        </ul>
         <div className="actions reveal-soft">
           {hasCta ? (
             <a
@@ -314,24 +377,35 @@ export function LandingExperience({
               aria-haspopup={isAppStoreLink ? "dialog" : undefined}
               aria-expanded={isAppStoreLink ? isDialogOpen : undefined}
               onClick={handleInstallClick}
+              data-cuelume-hover="chime"
+              data-cuelume-press
+              data-cuelume-release
             >
               {isAppStoreLink ? (
-                <Download aria-hidden="true" size={18} strokeWidth={2.4} />
+                <Download aria-hidden="true" size={18} />
               ) : (
-                <ArrowDown aria-hidden="true" size={18} strokeWidth={2.4} />
+                <ArrowDown aria-hidden="true" size={18} />
               )}
               <span>{copy.cta}</span>
             </a>
           ) : null}
           <p className="availability">{copy.availability}</p>
           <div className="legal-links">
-            <a className="privacy-link" href={privacyHref}>
+            <a
+              className="privacy-link"
+              href={privacyHref}
+              data-cuelume-hover="tick"
+            >
               {copy.privacyPolicy}
             </a>
             <span className="separator" aria-hidden="true">
               •
             </span>
-            <a className="privacy-link" href={supportHref}>
+            <a
+              className="privacy-link"
+              href={supportHref}
+              data-cuelume-hover="tick"
+            >
               {copy.support}
             </a>
           </div>

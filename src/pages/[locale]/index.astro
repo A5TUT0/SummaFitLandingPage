@@ -20,7 +20,13 @@ const supportHref = localizedPath(locale as Locale, "/support");
 
 <BaseLayout locale={locale as Locale} copy={copy}>
   <section class="hero" aria-labelledby="hero-title">
-    <LandingExperience installUrl="" privacyHref={privacyHref} supportHref={supportHref} copy={heroCopy} highlights={copy.content.highlights} />
+    <LandingExperience
+      installUrl=""
+      privacyHref={privacyHref}
+      supportHref={supportHref}
+      copy={heroCopy}
+      client:load
+    />
     <figure class="hero-media reveal-phone" aria-label={copy.heroAlt}>
       <div class="phone-shadow" aria-hidden="true" />
       <HeroCarousel />
