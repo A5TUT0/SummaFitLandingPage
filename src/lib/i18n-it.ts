@@ -5,8 +5,8 @@ export const IT_COPY: LandingCopy = {
   title: "L'app contacalorie gratuita per iPhone.",
   subtitle:
     "Scansiona i codici a barre, registra calorie e macronutrienti, monitora acqua e peso e segui i tuoi progressi quotidiani in un'unica app privata per iPhone.",
-  cta: "Scopri le funzionalità",
-  availability: "Prossimamente su iPhone",
+  cta: "Scarica dall’App Store",
+  availability: "Ora disponibile sull’App Store",
   qrDialogEyebrow: "Installazione rapida su iPhone",
   qrDialogTitle: "Installa SummaFit con questo codice QR",
   qrDialogDescription:
@@ -247,7 +247,7 @@ export const IT_SUPPORT_COPY: SupportCopy = {
     {
       question: "Cos'è SummaFit?",
       answer: [
-        "SummaFit è un'app per iPhone, prossimamente disponibile, progettata per il monitoraggio quotidiano dell'alimentazione. Permette di tenere sotto controllo calorie, macronutrienti (proteine, carboidrati e grassi), consumo di acqua e peso senza pubblicità, account o server cloud obbligatori.",
+        "SummaFit è un'app per iPhone, disponibile sull'App Store, progettata per il monitoraggio quotidiano dell'alimentazione. Permette di tenere sotto controllo calorie, macronutrienti (proteine, carboidrati e grassi), consumo di acqua e peso senza pubblicità, account o server cloud obbligatori.",
       ],
     },
     {
@@ -259,7 +259,7 @@ export const IT_SUPPORT_COPY: SupportCopy = {
     {
       question: "L'app richiede l'accesso o la creazione di un account?",
       answer: [
-        "No. Non dovrai registrarti, creare una password o accedere con un indirizzo e-mail. Quando la versione pubblica di SummaFit sarà disponibile sull'App Store, potrai iniziare a registrare alimenti e acqua senza creare un account.",
+        "No. Non dovrai registrarti, creare una password o accedere con un indirizzo e-mail. Puoi iniziare a registrare alimenti e acqua senza creare un account.",
       ],
     },
     {

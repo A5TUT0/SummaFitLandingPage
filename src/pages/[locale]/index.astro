@@ -16,12 +16,13 @@ const copy = COPY[locale as Locale];
 const { content: _content, ...heroCopy } = copy;
 const privacyHref = localizedPath(locale as Locale, "/policy");
 const supportHref = localizedPath(locale as Locale, "/support");
+const installUrl = "https://apps.apple.com/ch/app/summafit/id6787150982";
 ---
 
 <BaseLayout locale={locale as Locale} copy={copy}>
   <section class="hero" aria-labelledby="hero-title">
     <LandingExperience
-      installUrl=""
+      installUrl={installUrl}
       privacyHref={privacyHref}
       supportHref={supportHref}
       copy={heroCopy}

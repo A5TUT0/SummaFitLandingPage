@@ -2,20 +2,20 @@ import type { LandingCopy, LegalCopy, SupportCopy } from "./i18n";
 
 export const DE_COPY: LandingCopy = {
   eyebrow: "Kalorien und Makros kostenlos tracken",
-  title: "Die kostenlose Kalorienzähler-App fürs iPhone – bald verfügbar.",
+  title: "Die kostenlose Kalorienzähler-App fürs iPhone.",
   subtitle:
-    "Mit SummaFit kannst du bald Lebensmittel-Barcodes scannen, Kalorien und Makros zählen, Wasser und Gewicht erfassen und deinen täglichen Fortschritt verfolgen.",
-  cta: "Funktionen entdecken",
-  availability: "Bald fürs iPhone",
+    "Mit SummaFit kannst du Lebensmittel-Barcodes scannen, Kalorien und Makros zählen, Wasser und Gewicht erfassen und deinen täglichen Fortschritt verfolgen.",
+  cta: "Im App Store laden",
+  availability: "Jetzt im App Store verfügbar",
   qrDialogEyebrow: "Schnell aufs iPhone",
   qrDialogTitle: "SummaFit per QR-Code im App Store öffnen",
   qrDialogDescription:
-    "Scanne diesen QR-Code mit der Kamera deines iPhones, sobald SummaFit öffentlich im App Store verfügbar ist.",
+    "Scanne diesen QR-Code mit der Kamera deines iPhones, um SummaFit im App Store zu öffnen.",
   qrDialogLinkLabel: "App-Store-Link",
   qrDialogCopy: "Link kopieren",
   qrDialogCopied: "Kopiert",
   qrDialogQrAlt:
-    "QR-Code zum Öffnen von SummaFit im App Store nach der Veröffentlichung",
+    "QR-Code zum Öffnen von SummaFit im App Store",
   privacyPolicy: "Datenschutzerklärung",
   support: "Hilfe",
   seoTitle: "Kostenlose Kalorienzähler-App fürs iPhone | SummaFit",
@@ -134,7 +134,7 @@ export const DE_COPY: LandingCopy = {
     ctaDescription:
       "Sieh dir die geplanten Funktionen für Kalorien, Makros, Flüssigkeitszufuhr, Gewicht und Fortschritt auf dem iPhone an.",
     footerTagline:
-      "Bald fürs iPhone: kostenloses und privates Kalorien- und Makro-Tracking.",
+      "Kostenloses und privates Kalorien- und Makro-Tracking fürs iPhone.",
   },
 };
 
@@ -252,7 +252,7 @@ export const DE_SUPPORT_COPY: SupportCopy = {
       question: "Was ist SummaFit?",
       answer: [
         "SummaFit ist eine für das iPhone entwickelte App zum täglichen Ernährungstracking. Sie soll gesunden Erwachsenen helfen, Kalorien, Makronährstoffe, Wasser und Gewicht zu erfassen und ihren Fortschritt zu verstehen.",
-        "SummaFit ist noch nicht öffentlich im App Store verfügbar. Die App ist als kostenloses Angebot ohne Werbung, Benutzerkonto oder verpflichtenden Cloud-Server geplant. Sie liefert informative Wellness-Schätzwerte und keine Diagnose, Behandlung oder medizinische Beratung.",
+        "SummaFit ist im App Store verfügbar: ein kostenloses Angebot ohne Werbung, Benutzerkonto oder verpflichtenden Cloud-Server. Sie liefert informative Wellness-Schätzwerte und keine Diagnose, Behandlung oder medizinische Beratung.",
       ],
     },
     {
@@ -265,7 +265,7 @@ export const DE_SUPPORT_COPY: SupportCopy = {
     {
       question: "Brauche ich eine Anmeldung oder ein Benutzerkonto?",
       answer: [
-        "Nein. Du musst dich nicht registrieren, kein Passwort anlegen und keine E-Mail-Adresse zum Anmelden angeben. Sobald SummaFit öffentlich verfügbar ist, sollst du Lebensmittel und Wasser direkt ohne Konto erfassen können.",
+        "Nein. Du musst dich nicht registrieren, kein Passwort anlegen und keine E-Mail-Adresse zum Anmelden angeben. Du kannst Lebensmittel und Wasser direkt ohne Konto erfassen.",
       ],
     },
     {

@@ -1,11 +1,11 @@
 # SummaFit
 
-> SummaFit is a coming-soon, planned-free, local-first calorie and macro tracking app built natively for iPhone. It is designed to help people log food, scan product barcodes, track water and weight, set personal nutrition targets, review progress, and optionally connect relevant data with Apple Health.
+> SummaFit is a free, local-first calorie and macro tracking app available on the App Store for iPhone. It is designed to help people log food, scan product barcodes, track water and weight, set personal nutrition targets, review progress, and optionally connect relevant data with Apple Health.
 
 Product facts:
 
 - Platform: iPhone, iOS 26 or later
-- Status: coming soon; the public App Store listing is not yet available
+- Status: available on the App Store: https://apps.apple.com/ch/app/summafit/id6787150982
 - Planned price: free
 - Core features: calorie and macro tracking, barcode scanning through Open Food Facts, hydration, weight trends, personal targets, Apple Health integration
 - Privacy: no account required; core profile and tracking history are designed to remain on the device

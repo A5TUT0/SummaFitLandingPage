@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import Aurora from "./Aurora";
+import ColorBends from "./ColorBends";
 import {
   type Locale,
   type LandingCopy,
@@ -17,6 +17,7 @@ interface Props {
 const { locale, copy } = Astro.props;
 
 const SITE_URL = "https://summa.fit";
+const APP_STORE_URL = "https://apps.apple.com/ch/app/summafit/id6787150982";
 const OG_IMAGE = `${SITE_URL}/newog-image.png`;
 const VIDEO_URL = `${SITE_URL}/summafit-app-preview.mp4`;
 const VIDEO_POSTER = `${SITE_URL}/summafit-app-preview-poster.jpg`;
@@ -58,6 +59,8 @@ const structuredData = {
       applicationCategory: "HealthApplication",
       operatingSystem: "iOS 26.0 or later",
       url: canonicalUrl,
+      downloadUrl: APP_STORE_URL,
+      sameAs: [APP_STORE_URL],
       image: OG_IMAGE,
       description: copy.subtitle,
       inLanguage: SUPPORTED_LOCALES,
@@ -193,11 +196,22 @@ const structuredData = {
   </head>
   <body>
     <div class="ambient-field" aria-hidden="true">
-      <Aurora
-        colorStops={["#4EDE66", "#BD68FE", "#32B0FE"]}
-        blend={0.5}
-        amplitude={1}
-        speed={1}
+      <ColorBends
+        colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
+        rotation={90}
+        speed={0.2}
+        scale={1}
+        frequency={1}
+        warpStrength={1}
+        mouseInfluence={1}
+        noise={0.15}
+        parallax={0.5}
+        iterations={1}
+        intensity={1.5}
+        bandWidth={6}
+        transparent
+        autoRotate={0}
+        color="#A855F7"
         client:load
       />
     </div>
@@ -327,8 +341,8 @@ const structuredData = {
             });
 
       const waitForReadySignal = (
-        datasetKey: "auroraReady" | "landingReady",
-        eventName: "summafit:aurora-ready" | "summafit:landing-ready",
+        datasetKey: "colorBendsReady" | "landingReady",
+        eventName: "summafit:color-bends-ready" | "summafit:landing-ready",
       ) =>
         document.documentElement.dataset[datasetKey] === "true"
           ? Promise.resolve()
@@ -364,7 +378,7 @@ const structuredData = {
 
       const allCriticalContentReady = Promise.all([
         waitForWindowLoad(),
-        waitForReadySignal("auroraReady", "summafit:aurora-ready"),
+        waitForReadySignal("colorBendsReady", "summafit:color-bends-ready"),
         waitForReadySignal("landingReady", "summafit:landing-ready"),
         waitForVideo(),
         fontsReady,

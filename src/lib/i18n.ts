@@ -156,8 +156,8 @@ export const COPY: Record<Locale, LandingCopy> = {
     title: "The free calorie counter for iPhone.",
     subtitle:
       "Scan food barcodes, log calories and macros, track water and weight, and follow your daily progress in one private iPhone app.",
-    cta: "Explore the features",
-    availability: "Coming soon to iPhone",
+    cta: "Download on the App Store",
+    availability: "Now available on the App Store",
     qrDialogEyebrow: "Quick iPhone install",
     qrDialogTitle: "Install SummaFit with this QR",
     qrDialogDescription:
@@ -256,7 +256,7 @@ export const COPY: Record<Locale, LandingCopy> = {
         {
           question: "Is SummaFit a free calorie counter?",
           answer:
-            "SummaFit is planned as a free calorie and macro tracking app for iPhone, including food logging, hydration and progress tools.",
+            "SummaFit is a free calorie and macro tracking app for iPhone, including food logging, hydration and progress tools.",
         },
         {
           question: "Can I scan food barcodes?",
@@ -279,9 +279,9 @@ export const COPY: Record<Locale, LandingCopy> = {
             "SummaFit is built natively for iPhone and requires iOS 26 or later.",
         },
       ],
-      ctaTitle: "See what SummaFit is building",
+      ctaTitle: "Get SummaFit for iPhone",
       ctaDescription:
-        "Explore the calorie, macro, hydration and progress tools planned for SummaFit on iPhone.",
+        "Download SummaFit and explore calorie, macro, hydration and progress tools on iPhone.",
       footerTagline: "Free, private calorie and macro tracking for iPhone.",
     },
   },
@@ -290,8 +290,8 @@ export const COPY: Record<Locale, LandingCopy> = {
     title: "La app gratis para contar calorías en iPhone.",
     subtitle:
       "Escanea códigos de barras, registra calorías y macros, controla agua y peso y sigue tu progreso diario en una app privada para iPhone.",
-    cta: "Explorar funciones",
-    availability: "Próximamente en iPhone",
+    cta: "Descargar en el App Store",
+    availability: "Ya disponible en el App Store",
     qrDialogEyebrow: "Instalación rápida en iPhone",
     qrDialogTitle: "Instala SummaFit con este QR",
     qrDialogDescription:
@@ -390,7 +390,7 @@ export const COPY: Record<Locale, LandingCopy> = {
         {
           question: "¿SummaFit es un contador de calorías gratis?",
           answer:
-            "SummaFit está prevista como una app gratuita para iPhone e incluirá registro de calorías y macros, hidratación y herramientas de progreso.",
+            "SummaFit es una app gratuita para iPhone con registro de calorías y macros, hidratación y herramientas de progreso.",
         },
         {
           question: "¿Puedo escanear códigos de barras de alimentos?",
@@ -413,9 +413,9 @@ export const COPY: Record<Locale, LandingCopy> = {
             "SummaFit está desarrollada de forma nativa para iPhone y requiere iOS 26 o una versión posterior.",
         },
       ],
-      ctaTitle: "Descubre lo que estamos creando",
+      ctaTitle: "Descarga SummaFit para iPhone",
       ctaDescription:
-        "Explora las herramientas de calorías, macros, hidratación y progreso previstas para SummaFit en iPhone.",
+        "Descarga SummaFit y explora sus herramientas de calorías, macros, hidratación y progreso en iPhone.",
       footerTagline:
         "Control gratuito y privado de calorías y macros para iPhone.",
     },
@@ -425,8 +425,8 @@ export const COPY: Record<Locale, LandingCopy> = {
     title: "Le compteur de calories gratuit pour iPhone.",
     subtitle:
       "Scannez les codes-barres, suivez calories et macros, surveillez eau et poids et consultez vos progrès dans une app iPhone privée.",
-    cta: "Découvrir les fonctions",
-    availability: "Bientôt sur iPhone",
+    cta: "Télécharger sur l’App Store",
+    availability: "Disponible sur l’App Store",
     qrDialogEyebrow: "Installation rapide sur iPhone",
     qrDialogTitle: "Installez SummaFit avec ce QR code",
     qrDialogDescription:
@@ -525,7 +525,7 @@ export const COPY: Record<Locale, LandingCopy> = {
         {
           question: "SummaFit est-il un compteur de calories gratuit ?",
           answer:
-            "SummaFit est prévue comme une app iPhone gratuite comprenant le suivi des calories, macros, de l'hydratation et des progrès.",
+            "SummaFit est une app iPhone gratuite comprenant le suivi des calories, macros, de l'hydratation et des progrès.",
         },
         {
           question: "Puis-je scanner les codes-barres alimentaires ?",
@@ -548,9 +548,9 @@ export const COPY: Record<Locale, LandingCopy> = {
             "SummaFit est développée nativement pour iPhone et nécessite iOS 26 ou une version ultérieure.",
         },
       ],
-      ctaTitle: "Découvrez ce que nous préparons",
+      ctaTitle: "Téléchargez SummaFit sur iPhone",
       ctaDescription:
-        "Explorez les outils de calories, macros, hydratation et progrès prévus pour SummaFit sur iPhone.",
+        "Téléchargez SummaFit et explorez ses outils de calories, macros, hydratation et progrès sur iPhone.",
       footerTagline:
         "Suivi gratuit et privé des calories et macros sur iPhone.",
     },
@@ -832,7 +832,7 @@ export const SUPPORT_COPY: Record<Locale, SupportCopy> = {
       {
         question: "Does the app require a login or account?",
         answer: [
-          "No. You won't need to register, create a password, or sign in with an email. When SummaFit's public App Store version is available, you will be able to start tracking food and water without creating an account.",
+          "No. You won't need to register, create a password, or sign in with an email. You can start tracking food and water without creating an account.",
         ],
       },
       {
@@ -976,7 +976,7 @@ export const SUPPORT_COPY: Record<Locale, SupportCopy> = {
       {
         question: "L'application nécessite-t-elle un compte ?",
         answer: [
-          "Non. Vous n'aurez pas besoin de vous inscrire, de créer un mot de passe ou de renseigner un e-mail. Lorsque la version publique de SummaFit sera disponible sur l'App Store, vous pourrez suivre vos repas sans créer de compte.",
+          "Non. Vous n'aurez pas besoin de vous inscrire, de créer un mot de passe ou de renseigner un e-mail. Vous pouvez suivre vos repas sans créer de compte.",
         ],
       },
       {
